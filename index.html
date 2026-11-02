@@ -1,3 +1,7 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Nova Archipelago</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%2306111a'/><polygon points='16,3.5 26.8,9.75 26.8,22.25 16,28.5 5.2,22.25 5.2,9.75' fill='none' stroke='%236fe7e0' stroke-width='2.6'/><path d='M9.5 20.5 Q12 14 15.5 15.5 Q18 11 22.5 20.5 Z' fill='%23ffc15a'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -202,7 +206,6 @@ kbd{font-family:var(--mono);font-size:10px;border:1px solid var(--line);padding:
 .diff small{font-family:var(--mono);font-size:11px;color:var(--muted)}
 .diff:hover{border-color:var(--line2)}
 .diff[aria-checked="true"]{border-color:var(--amber);background:rgba(255,193,90,.08)}
-#diffBlurb{font-size:12px;min-height:3em;margin:0 0 16px}
 .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
 .btn{cursor:pointer;padding:11px 18px;font-family:var(--display);font-weight:700;letter-spacing:.1em;text-transform:uppercase;font-size:13px;background:transparent;border:1px solid var(--line2)}
 .btn:hover{border-color:var(--cyan);color:var(--cyan)}
@@ -238,31 +241,122 @@ kbd{font-family:var(--mono);font-size:10px;border:1px solid var(--line);padding:
 .sliders label{display:grid;grid-template-columns:110px 1fr;gap:10px;align-items:center;font-size:13px;color:var(--muted)}
 .sliders input{accent-color:var(--cyan);width:100%}
 
+/* ---- logo, save box, dev tools ---- */
+.sheet h1.logo,.logo{display:flex;align-items:center;gap:12px;margin:10px 0 12px;font-size:inherit}
+.logo svg{width:76px;height:76px;flex:none}
+.logo b{display:block;font-family:var(--display);font-weight:800;font-size:clamp(28px,6vw,42px);line-height:1.02;letter-spacing:.02em}
+.logo b span{display:block;color:var(--amber)}
+.logo.sm{margin:0;gap:8px} .logo.sm svg{width:38px;height:38px} .logo.sm b{font-size:14px}
+.diff span{font-size:12px;line-height:1.35;color:var(--muted)}
+#startModal .diffs{margin-bottom:16px}
+#ioBox{box-sizing:border-box;display:block;width:100%;height:150px;margin:0 0 12px;padding:8px;resize:vertical;background:var(--ink);color:var(--text);border:1px solid var(--line2);font:12px/1.4 var(--mono);word-break:break-all;-webkit-user-select:text;user-select:text;touch-action:auto}
+.pOnly,.tierTabs{display:none}
+#devPanel{right:16px;top:calc(var(--top-h,130px) + 58px);z-index:4;padding:8px;display:grid;grid-template-columns:repeat(2,auto);gap:5px;font-size:12px}
+#devPanel h4{grid-column:1 / -1;margin:0;font:500 11px var(--mono);color:var(--amber)}
+#devPanel button{cursor:pointer;min-height:32px;padding:3px 8px;background:var(--panel2);border:1px solid var(--line2)}
+#devPanel button[aria-pressed="true"]{background:var(--amber);color:#1b1206}
+
+/* ---- phone parts, shown only at phone width ---- */
+#pStrip,#pGoal,#pHome,#pSheet,#placeCard,#dock{display:none}
+
 @media (max-width:1180px){ .rl{grid-template-columns:16px 62px minmax(24px,1fr) auto} }
 @media (max-width:760px){
-  #tiBox{width:auto;flex:1 1 120px;min-width:0;padding:8px 10px}
-  .tiHead > span:first-child{display:none}
-  #tiVal{font-size:24px} #tiParts{display:none}
-  #tools{gap:4px}
-  .ibtn{width:34px;height:34px;font-size:15px}
-  #econ{order:3;flex:1 1 100%;max-width:none;gap:6px}
-  #groups{gap:6px} .grp{padding:6px 7px;gap:5px} .grp h4{display:none}
-  .rl{grid-template-columns:14px 1fr;gap:2px 6px;font-size:12px} .rl .rn,.rl .rnote{display:none} .rl .trk{grid-column:1 / -1;height:5px}
-  #danger{order:4;padding:7px 10px;gap:2px 10px} #danger .big{font-size:24px;min-width:38px} #danger .why{font-size:11.5px}
-  #goals{width:auto;right:16px;padding:7px 10px;max-height:72px}
-  #goals .gl li.done,#goals .gt small,#goals .rq{display:none}
-  #tray{right:16px}
-  #mini{bottom:calc(var(--tray-h,150px) + 10px);padding:4px}
-  #mini canvas{width:116px;height:87px} #mini div{display:none}
-  #endSol{width:auto;padding:8px 12px;font-size:13px}
+  #tiBox,#econ,#tools,#goals,#mini,#tip,#info,#app.placing #info,#tray{display:none!important}
+  #top{top:calc(8px + env(safe-area-inset-top,0px));left:8px;right:8px;gap:6px}
+  #pStrip{display:grid;flex:1 1 100%;min-width:0;gap:6px;padding:7px 9px;background:rgba(8,21,30,.93)}
+  .pHead{display:flex;align-items:baseline;gap:7px}
+  .pHead b{font:800 20px var(--display);color:var(--amber);font-variant-numeric:tabular-nums}
+  .pHead span{min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;color:var(--cyan);font-weight:600;font-size:13px}
+  .pHead small{margin-left:auto;white-space:nowrap;font:500 12px var(--mono)}
+  #pStrip .bar{margin:0;height:5px}
+  .chips{display:grid;grid-template-columns:repeat(4,minmax(0,1fr)) 40px;gap:4px}
+  .chip{min-height:44px;padding:2px;cursor:pointer;display:grid;place-content:center;justify-items:center;background:var(--panel2);border:1px solid var(--line);font:500 13px/1.15 var(--mono);font-variant-numeric:tabular-nums}
+  .chip small{font:500 11px var(--body);color:var(--muted);white-space:nowrap}
+  .chip.warn{border-color:var(--warn)} .chip.warn small{color:var(--warn)}
+  .chip.bad{border-color:var(--warn);background:rgba(255,179,90,.14)}
+  .chip.more{color:var(--cyan);font-size:15px}
+  #pStrip .al{font-size:12px}
+  .pAl{display:flex;flex-wrap:wrap;gap:4px}
+  #danger{order:4;max-width:none;padding:7px 10px;gap:2px 10px} #danger .big{font-size:24px;min-width:38px} #danger .why{font-size:12px} #danger .parts{display:none}
+  .fixb{min-height:44px;padding:6px 10px;font-size:13px}
+  #pGoal{display:flex;align-items:center;gap:7px;left:8px;top:calc(var(--top-h,110px) + 6px);max-width:calc(100% - 68px);min-height:44px;padding:5px 10px;font-size:13px;text-align:left;cursor:pointer;background:rgba(8,21,30,.9)}
+  #pGoal:empty{display:none}
+  #pGoal b{font:500 12px var(--mono);color:var(--amber);white-space:nowrap}
+  #pHome{display:grid;position:absolute;width:44px;height:44px;right:8px;top:calc(var(--top-h,110px) + 6px)}
+  #endSol{left:8px;right:8px;width:auto;justify-content:center;min-height:52px;bottom:calc(66px + env(safe-area-inset-bottom,0px));padding:8px 12px;font-size:16px}
   #endSol kbd{display:none}
-  #app.placing #mini{display:none}
-  #info p{display:none}
-  #app.placing #info{left:16px;right:16px;width:auto;max-height:26vh;bottom:calc(var(--tray-h,150px) + 60px)}
-  .diffs,.tech{grid-template-columns:1fr}
+  #dock{display:grid;grid-template-columns:repeat(4,1fr);left:0;right:0;bottom:0;padding-bottom:env(safe-area-inset-bottom,0px);background:rgba(6,17,26,.97);border-top:1px solid var(--line2)}
+  #dock button{position:relative;min-height:58px;display:grid;justify-items:center;align-content:center;gap:3px;background:none;border:0;cursor:pointer;color:var(--muted);font-size:12px}
+  #dock button .ic{font-size:19px}
+  #dock button.on{color:var(--amber)}
+  #dock .badge{position:absolute;top:8px;left:calc(50% + 8px);width:9px;height:9px;background:var(--amber);border-radius:50%}
+  #app[data-sheet] #endSol,#app.placing #endSol,#app.placing #dock,#app[data-sheet] #pGoal,#app[data-sheet] #pHome,#app.placing #pGoal{display:none}
+  #app[data-sheet="build"] #tray{display:grid!important;left:0;right:0;bottom:0;z-index:4;box-sizing:border-box;grid-template-columns:repeat(3,minmax(0,1fr));align-content:start;gap:6px;height:min(72%,490px);overflow:hidden auto;padding:10px 10px calc(12px + env(safe-area-inset-bottom,0px));background:#0a1b27;border-top:2px solid var(--line2);touch-action:pan-y}
+  #tray > :first-child,#tray > :last-child{margin:0}
+  .trayHead{grid-column:1 / -1;display:flex;justify-content:space-between;align-items:center;font:700 16px var(--display)}
+  .trayHead small{margin-left:auto;margin-right:10px;font:500 12px var(--mono);color:var(--muted)}
+  .x{cursor:pointer;width:44px;height:44px;display:grid;place-items:center;background:none;border:1px solid var(--line);color:var(--muted);font-size:14px}
+  .cats{grid-column:1 / -1;display:flex;gap:4px;overflow:auto hidden;touch-action:pan-x}
+  .catb{position:relative;flex:0 0 auto;min-height:44px;padding:0 10px;cursor:pointer;background:none;border:1px solid var(--line);font-size:13px}
+  .catb.on{background:var(--panel2);border-color:var(--cyan);color:var(--cyan)}
+  .catb.new::after{content:"";position:absolute;top:4px;right:4px;width:7px;height:7px;background:var(--amber);border-radius:50%}
+  .card{width:auto;min-width:0;padding:6px 3px;min-height:112px;align-content:start;background:var(--panel2)}
+  .card:hover,.card.sel{transform:none}
+  .card canvas{width:64px;height:52px}
+  .card .hk{display:none}
+  .card.locked{opacity:.5;cursor:not-allowed}
+  .card .cost{flex-wrap:wrap;font-size:12px}
+  .card.new::after{top:2px}
+  #pSheet{box-sizing:border-box;left:0;right:0;bottom:0;z-index:4;max-height:78%;overflow:hidden auto;padding:10px 10px calc(12px + env(safe-area-inset-bottom,0px));background:#0a1b27;border-top:2px solid var(--line2);font-size:13px;line-height:1.45;touch-action:pan-y}
+  #app[data-sheet="status"] #pSheet,#app[data-sheet="hex"] #pSheet,#app[data-sheet="map"] #pSheet{display:block}
+  #app[data-sheet="map"] #pSheet{bottom:calc(58px + env(safe-area-inset-bottom,0px));border-bottom:1px solid var(--line)}
+  .sheetActs{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+  #pSheet .grp{background:none;border:0;padding:6px 0;backdrop-filter:none;-webkit-backdrop-filter:none}
+  #pSheet .grp h4{font-size:11px;font-family:var(--mono)}
+  #pSheet .rl{grid-template-columns:16px 88px minmax(24px,1fr) auto;min-height:34px;cursor:pointer;font-size:13px}
+  #pSheet .rl .rnote{font-size:12px}
+  #resCard{left:8px!important;right:8px;top:auto!important;bottom:calc(12px + env(safe-area-inset-bottom,0px));width:auto;z-index:6;pointer-events:auto;font-size:13px}
+  #placeCard{left:0;right:0;bottom:0;z-index:3;box-sizing:border-box;gap:7px;padding:10px 10px calc(10px + env(safe-area-inset-bottom,0px));background:#0a1b27;border-top:2px solid var(--amber);font-size:13px}
+  #app.placing #placeCard{display:grid}
+  .pcTop{display:grid;grid-template-columns:48px minmax(0,1fr) auto;gap:9px;align-items:center}
+  .pcTop img{width:48px;height:39px}
+  .pcTop b{display:block;font:700 15px var(--display)}
+  .pcTop small{display:block;color:var(--muted);font-size:12px;line-height:1.3}
+  .pcYield{font:800 22px/1 var(--display);color:var(--pos);text-align:right}
+  .pcYield small{font:500 11px var(--body);max-width:88px}
+  .pcRules{display:flex;flex-wrap:wrap;gap:3px;max-height:72px;overflow:hidden auto;touch-action:pan-y}
+  .pcRules span{padding:1px 5px;background:var(--panel2);font:500 11.5px var(--mono);color:var(--pos)}
+  .pcRules span.n{color:var(--neg)}
+  .pcBudget{font-size:12px;line-height:1.35;color:var(--muted)}
+  .pcBudget br{display:none}
+  .pcBtns{display:grid;grid-template-columns:2fr 1fr;gap:6px}
+  .pcBtns button{min-height:48px;cursor:pointer;font:700 14px var(--display);background:none;border:1px solid var(--line2)}
+  .pcBtns .go{background:var(--amber);color:#1b1206;border-color:var(--amber)}
+  .pcBtns .go:disabled{background:none;color:var(--muted);border-color:var(--line);cursor:not-allowed}
+  #helpPanel{position:absolute;inset:0;width:auto;max-width:none;max-height:none;z-index:6;padding:calc(14px + env(safe-area-inset-top,0px)) 16px 24px;background:var(--panel2);font-size:14px;touch-action:pan-y}
+  #helpPanel dl{font-size:13.5px}
+  #helpPanel .x{width:44px;height:44px}
+  #devPanel{right:8px;top:calc(var(--top-h,110px) + 56px)}
+  .diffs{grid-template-columns:1fr;gap:6px}
+  .diff{min-height:44px;padding:8px 10px}
+  #startModal .steps{display:none}
+  #startModal .diffs{margin-bottom:12px}
+  .modal{padding:8px;align-items:start}
+  .sheet{padding:16px 14px;touch-action:pan-y}
+  .sheet p{margin-bottom:10px}
+  .btn{min-height:44px;padding:9px 12px;font-size:12.5px}
+  .row{gap:6px}
+  .seed{flex:1 1 100%;margin:0}
+  .pOnly{display:inline-block}
   .stats{grid-template-columns:repeat(2,1fr)}
   .stats b{font-size:20px}
-  .sheet{padding:20px 16px 16px}
+  .sliders input{min-height:32px}
+  .tierTabs{display:flex;grid-column:1 / -1;gap:4px}
+  .tech{grid-template-columns:1fr}
+  .tcol:not(.on){display:none}
+  .tc{min-height:48px;padding-right:72px}
+  .tc.avail::after{content:"Queue";position:absolute;top:50%;right:8px;transform:translateY(-50%);padding:9px 8px;border:1px solid var(--amber);color:var(--amber);font:600 12.5px var(--body)}
+  #researchModal .row{position:sticky;bottom:-16px;padding:8px 0;background:var(--panel2)}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
@@ -272,6 +366,7 @@ kbd{font-family:var(--mono);font-size:10px;border:1px solid var(--line);padding:
   <canvas id="overlay"></canvas>
 
   <div id="top" class="hud">
+    <div id="pStrip" class="panel"></div>
     <div id="tiBox" class="panel">
       <div class="tiHead"><span>Terraformation</span><span id="stageName">Barren Rock</span></div>
       <div id="tiVal">0<small>Ti</small></div>
@@ -299,27 +394,37 @@ kbd{font-family:var(--mono);font-size:10px;border:1px solid var(--line);padding:
   <div id="feed" aria-live="polite"></div>
   <div id="info" class="hud panel"></div>
   <div id="helpPanel" class="hud panel" hidden>
-    <div class="hhead"><h3>Field notes</h3><button class="x" id="helpClose" aria-label="Close field notes">&#10005;</button></div>
+    <div class="hhead"><div class="logo sm" aria-label="Nova Archipelago"><svg viewBox="0 0 32 32" aria-hidden="true"><polygon points="16,3.5 26.8,9.75 26.8,22.25 16,28.5 5.2,22.25 5.2,9.75" fill="none" stroke="#6fe7e0" stroke-width="2"/><path d="M9.5 20.5 Q12 14 15.5 15.5 Q18 11 22.5 20.5 Z" fill="#ffc15a"/></svg><b>NOVA<span>ARCHIPELAGO</span></b></div><button class="x" id="helpClose" aria-label="Close field notes">&#10005;</button></div>
+    <h3 style="margin-bottom:10px">Field notes</h3>
     <dl>
       <dt>Sols</dt><dd>Build whatever you can afford, then press End sol. Production, upkeep and research run once per sol. Fewer sols to Living World is a better result.</dd>
       <dt>Build zone</dt><dd>The dashed line. Every structure extends it; Relay Pylons reach 5 hexes and Drone Hubs 4. Dim land is unsurveyed.</dd>
       <dt>Efficiency</dt><dd>Structures run at reduced output when power, oxygen or crew fall short, and when morale drops below 50. Check the meters before you build.</dd>
       <dt>Upkeep</dt><dd>Every housed crew member eats food each sol. Hungry or short of air, crews lose morale fast. On Standard and Hard, morale stuck at zero evacuates the colony.</dd>
-      <dt>Hazards</dt><dd>Dust storms cut solar (Battery Banks help). Cold snaps halve farms without an adjacent Heater. Meteors knock structures offline (Point Defense, or click to repair).</dd>
+      <dt>Hazards</dt><dd>Dust storms cut solar (Battery Banks help). Cold snaps halve farms without an adjacent Heater. Meteors knock structures offline (Point Defense, or tap or click to repair).</dd>
       <dt>Unlocks</dt><dd>Early milestones unlock the first buildings and the Research Lab. After that, research unlocks everything else. Its tiers open at terraforming stages.</dd>
       <dt>Monoliths</dt><dd>Cyan ? signals. Survey one for a research breakthrough and permanent Ti.</dd>
       <dt>Controls</dt><dd><kbd>Drag</kbd> or <kbd>WASD</kbd> pan &middot; <kbd>Wheel</kbd> zoom &middot; <kbd>1&ndash;9</kbd> pick &middot; <kbd>Space</kbd> end sol &middot; <kbd>R</kbd> research &middot; <kbd>M</kbd> music &middot; <kbd>H</kbd> lander &middot; <kbd>?</kbd> notes &middot; <kbd>Esc</kbd> or right-click cancels</dd>
+      <dt>On a phone</dt><dd>Drag to pan and pinch to zoom. Tap a hex for details. While building, tap a hex to preview it, then press Place here, or tap the same hex twice.</dd>
     </dl>
   </div>
   <div id="tray" class="hud"></div>
   <button id="endSol" class="hud" title="End the sol (Space)"></button>
   <div id="mini" class="hud panel"><canvas id="minimap" width="400" height="300"></canvas><div><span id="sector">&mdash;</span><span id="coords">&mdash;</span></div></div>
   <div id="tip" hidden></div>
+  <button id="pGoal" class="hud panel"></button>
+  <button id="pHome" class="hud ibtn" aria-label="Return to the lander"></button>
+  <div id="pSheet" class="hud"></div>
+  <div id="placeCard" class="hud"></div>
+  <nav id="dock" class="hud" aria-label="Colony actions">
+    <button id="dBuild"></button><button id="dResearch"></button><button id="dMap"></button><button id="dMenu"></button>
+  </nav>
+  <div id="devPanel" class="hud panel" hidden></div>
 
   <div id="startModal" class="modal">
     <div class="sheet">
       <div class="eyebrow">Colony charter &middot; Kepler-442c</div>
-      <h1>Nova <span>Archipelago</span></h1>
+      <h1 class="logo" aria-label="Nova Archipelago"><svg viewBox="0 0 32 32" aria-hidden="true"><polygon points="16,3.5 26.8,9.75 26.8,22.25 16,28.5 5.2,22.25 5.2,9.75" fill="none" stroke="#6fe7e0" stroke-width="2"/><path d="M9.5 20.5 Q12 14 15.5 15.5 Q18 11 22.5 20.5 Z" fill="#ffc15a"/></svg><b>NOVA<span>ARCHIPELAGO</span></b></h1>
       <p>A barren water world, and a lander on a chain of islands. Bring the planet from bare rock to a living world in as few sols as you can.</p>
       <ul class="steps">
         <li><i>1</i><span><b>Build</b> from the menu inside the dashed zone. Placement decides output, and every copy of a structure costs more than the last.</span></li>
@@ -328,11 +433,11 @@ kbd{font-family:var(--mono);font-size:10px;border:1px solid var(--line);padding:
         <li><i>4</i><span><b>Unlock</b> new structures through early milestones, then a research tree that opens with each terraforming stage.</span></li>
       </ul>
       <div class="diffs" id="diffs" role="radiogroup" aria-label="Difficulty"></div>
-      <p id="diffBlurb"></p>
       <div class="row">
         <button class="btn pri" id="continueBtn" hidden>Continue<small id="continueSub"></small></button>
         <button class="btn pri" id="startBtn">Launch colony</button>
         <button class="btn" id="rerollBtn">New world</button>
+        <button class="btn" id="startImport">Import save</button>
         <span class="seed" id="seedLbl">seed &mdash;</span>
       </div>
     </div>
@@ -342,7 +447,7 @@ kbd{font-family:var(--mono);font-size:10px;border:1px solid var(--line);padding:
     <div class="sheet wide">
       <div class="eyebrow">Research &middot; <span id="rsData">0</span></div>
       <h2>Research tree</h2>
-      <p>Click a technology to queue it. Labs feed it data every sol. Tiers open at terraforming stages and need two techs from the tier before.</p>
+      <p>Tap or click a technology to queue it. Labs feed it data every sol. Tiers open at terraforming stages and need two techs from the tier before.</p>
       <div id="rsQueue"></div>
       <div class="tech" id="techGrid"></div>
       <div class="row"><button class="btn" id="rsClose">Close</button></div>
@@ -375,6 +480,26 @@ kbd{font-family:var(--mono);font-size:10px;border:1px solid var(--line);padding:
         <button class="btn" id="restartBtn">Restart</button>
         <button class="btn" id="newWorldBtn">New world</button>
         <button class="btn" id="endBtn">End colony</button>
+      </div>
+      <div class="row" style="margin-top:10px">
+        <button class="btn" id="exportBtn">Export save</button>
+        <button class="btn" id="importBtn">Import save</button>
+        <button class="btn pOnly" id="pauseHelp">Field notes</button>
+        <button class="btn pOnly" id="pauseMusic">Music on/off</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="ioModal" class="modal" hidden>
+    <div class="sheet">
+      <div class="eyebrow">Colony save</div>
+      <h2 id="ioTitle">Export save</h2>
+      <p id="ioText"></p>
+      <textarea id="ioBox" spellcheck="false" aria-label="Save text"></textarea>
+      <p id="ioMsg" class="n" hidden></p>
+      <div class="row">
+        <button class="btn pri" id="ioAction">Copy</button>
+        <button class="btn" id="ioClose">Close</button>
       </div>
     </div>
   </div>
@@ -662,14 +787,14 @@ const STAGES = [
 
 // every difficulty knob lives here
 const DIFFS = {
-  relaxed:  { name:'Relaxed',  blurb:'Light upkeep, rare hazards with 3 sols of warning. No collapse, no deadline.',
-    cost:.85, ration:.35, recover:7, moraleLoss:.6, moraleFloor:.6, collapse:0, charter:0,
+  relaxed:  { name:'Relaxed',  blurb:'Gentle upkeep. Colony can\'t be evacuated.',
+    cost:.85, ration:.35, recover:7, moraleLoss:.6, moraleFloor:.6, collapse:0,
     hazardGap:[24, 34], firstHazard:26, warn:3, meteors:1, startAlloy:46, startRations:20 },
-  standard: { name:'Standard', blurb:'Shortages bite. Five sols at zero morale evacuates the colony. Charter review at sol 300.',
-    cost:1, ration:.5, recover:5, moraleLoss:1, moraleFloor:.35, collapse:5, charter:300,
+  standard: { name:'Standard', blurb:'Evacuation after 5 sols at 0 morale.',
+    cost:1, ration:.5, recover:5, moraleLoss:1, moraleFloor:.35, collapse:5,
     hazardGap:[15, 23], firstHazard:16, warn:2, meteors:2, startAlloy:40, startRations:16 },
-  hard:     { name:'Hard',     blurb:'Dear construction, frequent hazards, one sol of warning. Three sols at zero morale ends it. Charter review at sol 240.',
-    cost:1.2, ration:.6, recover:4, moraleLoss:1.35, moraleFloor:.25, collapse:3, charter:240,
+  hard:     { name:'Hard',     blurb:'Evacuation after 3 sols at 0 morale. Crew eat more, morale falls faster, and structures cost more.',
+    cost:1.2, ration:.6, recover:4, moraleLoss:1.35, moraleFloor:.25, collapse:3,
     hazardGap:[10, 16], firstHazard:12, warn:1, meteors:3, startAlloy:34, startRations:14 },
 };
 const HAZ = {
@@ -891,7 +1016,10 @@ const Sound = (() => {
   let nextChord = 0, chordIdx = 0, nextNote = 0, nextBell = 0, timer = 0;
   const prefs = { on: true, music: .7, sfx: .7 };
   try { Object.assign(prefs, JSON.parse(localStorage.getItem('nova-audio') || '{}')); } catch (e) {}
-  const savePrefs = () => { try { localStorage.setItem('nova-audio', JSON.stringify(prefs)); } catch (e) {} };
+  // ?mute silences this page load without touching the saved volumes
+  const muted = /[?&]mute\b/.test(location.search);
+  if (muted) Object.assign(prefs, { on: false, music: 0, sfx: 0 });
+  const savePrefs = () => { if (muted) return; try { localStorage.setItem('nova-audio', JSON.stringify(prefs)); } catch (e) {} };
   const mtof = m => 440 * Math.pow(2, (m - 69) / 12);
   // D major / lydian colour: Dmaj9, F#m7, Gmaj7#11, Bm9, Gmaj9, Asus2
   const CHORDS = [[50,57,64,66,69],[42,54,57,61,64],[43,50,57,61,66],[47,54,57,61,62],[43,55,59,62,69],[45,52,57,59,64]];
@@ -1533,6 +1661,7 @@ const outCol = ty => ty.out === 'ti' ? TI_KIND[ty.tik].col : ty.out ? RES[OUT[ty
 
 // ---------- construction costs ----------
 function costOf(t){
+  if (devFree) return { alloy: 0, crystal: 0, parts: 0 };
   // terraformers compound in price so variety beats spam; infrastructure rises gently
   const ty = TYPES[t], c = ty.cost || {}, n = state.counts[t] || 0;
   const m = D().cost * (ty.out === 'ti' ? Math.pow(1.12, n) : 1 + .1 * n) * (state.tech.lean ? .8 : 1);
@@ -1710,9 +1839,9 @@ function endSol(force){
   advanceHazards();
   checkStage();
   if (d.collapse && state.zeroSols >= d.collapse) { afterChange(); gameOver('collapse'); return; }
-  if (d.charter && !state.won && state.sol > d.charter) { afterChange(); gameOver('charter'); return; }
   afterChange();
-  if (dangerState(state.proj).lv >= 2) Sound.alarm(); else Sound.endSol();
+  if (devQuiet) return;
+  if (loudWarnings() && dangerState(state.proj).lv >= 2) Sound.alarm(); else Sound.endSol();
 }
 function report(P, tiGain, idle){
   const bits = [`Sol ${state.sol - 1}: +${fmtNum(tiGain)} Ti`];
@@ -1822,7 +1951,7 @@ function advanceHazards(){
   if (state.sol >= h.next) {
     const hz = HAZ[h.type];
     h.active = h.type; h.left = hz.dur[0] + (Math.random() * (hz.dur[1] - hz.dur[0] + 1) | 0);
-    feed(hz.text, 'bad'); Sound.alarm();
+    feed(hz.text, 'bad'); if (devQuiet) {} else if (loudWarnings()) Sound.alarm(); else Sound.research();
     if (h.type === 'meteor') meteorStrike();
   }
 }
@@ -1878,7 +2007,7 @@ function getBest(diff){ try { return +(localStorage.getItem('nova-best-sols-' + 
 function recordBest(){ try { const b = getBest(state.diff); if (!b || state.wonSol < b) localStorage.setItem(bestKey(), state.wonSol); } catch (e) {} }
 function gameOver(reason){
   state.over = true; state.running = false; state.sel = -1;
-  clearSave(); showOver(reason);
+  setSheet(null); clearSave(); showOver(reason);
 }
 function afterChange(){
   project(); checkGoals(); project();
@@ -1895,7 +2024,9 @@ function serialize(){
     won:state.won, winShown:state.winShown, wonSol:state.wonSol, cam:{ x:cam.x, y:cam.y, z:cam.z } };
 }
 function save(){ if (!state.running || state.over) return; try { localStorage.setItem(SAVE_KEY, JSON.stringify(serialize())); } catch (e) {} }
-function loadSave(){ try { const s = JSON.parse(localStorage.getItem(SAVE_KEY) || 'null'); return s && s.v === 4 ? s : null; } catch (e) { return null; } }
+// every save format so far is v4; a future format adds its upgrade step here
+function migrateSave(s){ return s && s.v === 4 && DIFFS[s.diff] && Array.isArray(s.placed) ? s : null; }
+function loadSave(){ try { return migrateSave(JSON.parse(localStorage.getItem(SAVE_KEY) || 'null')); } catch (e) { return null; } }
 function clearSave(){ try { localStorage.removeItem(SAVE_KEY); } catch (e) {} }
 
 function newGame(seed, snap, diff){
@@ -1935,7 +2066,7 @@ function newGame(seed, snap, diff){
 
 // ================= UI (v4) =================
 let hover = -1, mouse = null, popups = [], lastTap = -1, launchT = -1e9, prevStock = {}, meteors = [];
-const MODALS = ['startModal', 'researchModal', 'pauseModal', 'overModal', 'winModal', 'confirmModal'];
+const MODALS = ['startModal', 'researchModal', 'pauseModal', 'overModal', 'winModal', 'confirmModal', 'ioModal'];
 const anyModal = () => MODALS.some(id => !$(id).hidden);
 const fmtNum = v => { const r = Math.round(v * 10) / 10; return Math.abs(r) >= 100 ? Math.round(r).toLocaleString('en-US') : String(r); };
 const fmtInt = v => Math.floor(v + 1e-6).toLocaleString('en-US');
@@ -1973,7 +2104,7 @@ function meteorFx(i){ meteors.push({ i, t0: performance.now() + Math.random() * 
 
 function renderUI(){
   if (!state.proj) project();
-  renderHUD(); renderTray(); renderInfo(); renderGoals();
+  renderHUD(); renderTray(); renderInfo(); renderGoals(); renderPhone();
   $('app').classList.toggle('placing', state.sel >= 0);
   ocv.classList.toggle('placing', state.sel >= 0);
   positionFeed();
@@ -1986,8 +2117,7 @@ function positionFeed(){
   app.style.setProperty('--tray-h', trayH + 'px');
   app.style.setProperty('--mini-h', miniH + 'px');
   app.style.setProperty('--right-h', Math.round(innerHeight - Math.min(tray.top, mini.height ? mini.top : innerHeight, es.height ? es.top : innerHeight)) + 'px');
-  const goals = $('goals'), gb = goals.hidden ? top : goals.getBoundingClientRect().bottom;
-  $('feed').style.top = (innerWidth <= 760 ? Math.round(gb) : top) + 10 + 'px';
+  $('feed').style.top = (isPhone() ? top + 52 : top) + 10 + 'px';
 }
 
 // ---------- resource bars ----------
@@ -2070,21 +2200,15 @@ function dangerState(P){
   const fs = foodSols(P);
   if (fs === 0) out.push({ lv: 2, big: 0, unit: 'food', title: 'Food has run out', why: `Crew eat ${fmtNum(P.cons)} a sol and farms make ${fmtNum(P.prod.rations)}. Every hungry sol costs ${fmtNum(16 * d.moraleLoss)} morale.`, fix: fixBtn('farm') });
   else if (fs <= 3) out.push({ lv: 1, big: fs, unit: fs === 1 ? 'sol' : 'sols', title: `Food runs out in ${plural(fs, 'sol')}`, why: `Crew eat ${fmtNum(P.cons)} a sol and farms make ${fmtNum(P.prod.rations)}.`, fix: `${fixBtn('farm')} <span class="dim">or build fewer Hab Pods</span>` });
-  if (d.charter && !state.won) {
-    const goal = STAGES[STAGES.length - 1].ti, ti = tiTotal(), rate = P.prod.ti.heat + P.prod.ti.press + P.prod.ti.bio;
-    const left = d.charter - state.sol + 1, need = Math.ceil((goal - ti) / Math.max(rate, 1e-9));
-    if (left <= 1 && ti + rate < goal) out.push({ lv: 3, big: 1, unit: 'sol left', title: 'Charter review this sol', why: `Living World needs ${fmtInt(goal - ti)} more Ti. The charter is withdrawn when this sol ends.`, fix: '', end: 'charter will be withdrawn',
-      confirm: `You are ${fmtInt(goal - ti - rate)} Ti short of Living World. Ending this sol ends the colony.` });
-    else if (need > left && left <= 10) out.push({ lv: 2, big: left, unit: 'sols left', title: `Charter review in ${plural(left, 'sol')}`, why: `At +${fmtNum(rate)} Ti a sol, Living World is ${rate > 0 ? `about ${plural(need, 'sol')} away` : 'out of reach'}.`, fix: '' });
-    else if (need > left && state.sol >= d.charter / 2) out.push({ lv: 1, big: rate > 0 ? need - left : '—', unit: 'sols behind', title: 'Behind charter pace', why: rate > 0 ? `At +${fmtNum(rate)} Ti a sol, Living World is around sol ${state.sol + need - 1}. The charter review is sol ${d.charter}.` : 'No Ti income yet.', fix: '' });
-  }
   return out.reduce((a, b) => b.lv > a.lv ? b : a, { lv: 0 });
 }
+// red pulses, red screen edges and alarms are saved for Hard; other difficulties stay amber
+const loudWarnings = () => state.diff === 'hard';
 function renderDanger(dz){
   const el = $('danger');
-  el.hidden = !dz.lv; $('vignette').hidden = dz.lv < 3;
+  el.hidden = !dz.lv; $('vignette').hidden = dz.lv < 3 || !loudWarnings();
   if (!dz.lv) return;
-  el.className = 'lv' + dz.lv;
+  el.className = 'lv' + (loudWarnings() ? dz.lv : 1);
   el.innerHTML = `<div class="big">${dz.big}<small>${dz.unit}</small></div><h3>${dz.title}</h3><div class="why">${dz.why}</div>${dz.fix ? `<div class="fix">${dz.fix}</div>` : ''}`;
 }
 function openConfirm(dz){
@@ -2143,12 +2267,12 @@ function renderHUD(){
   if (hz.active) al.push(`<span class="al bad">${ico(HAZ[hz.active].icon)} ${HAZ[hz.active].name} · ${hz.left} sol${hz.left > 1 ? 's' : ''} left</span>`);
   else if (eta > 0 && eta <= D().warn) al.push(`<span class="al warn">${ico(HAZ[hz.type].icon)} ${HAZ[hz.type].name} in ${eta} sol${eta > 1 ? 's' : ''}</span>`);
   const dmg = state.placed.filter(p => p.dmg).length;
-  if (dmg) al.push(`<span class="al bad">${ico('meteor')} ${dmg} damaged · click to repair</span>`);
+  if (dmg) al.push(`<span class="al bad">${ico('meteor')} ${dmg} damaged · tap or click to repair</span>`);
   $('alerts').innerHTML = al.join(''); $('alerts').hidden = !al.length;
-  const d = D(), dz = state.over ? { lv: 0 } : dangerState(P);
+  const dz = state.over ? { lv: 0 } : dangerState(P);
   renderDanger(dz);
-  $('endSol').classList.toggle('danger', dz.lv === 3);
-  $('endSol').innerHTML = `${ico('next')}<span>End sol ${state.sol}${dz.lv === 3 ? `<small>${dz.end}</small>` : d.charter && !state.won ? `<small>charter review at sol ${d.charter}</small>` : ''}</span><kbd>Space</kbd>`;
+  $('endSol').classList.toggle('danger', dz.lv === 3 && loudWarnings());
+  $('endSol').innerHTML = `${ico('next')}<span>End sol ${state.sol}${dz.lv === 3 ? `<small>${dz.end}</small>` : ''}</span><kbd>Space</kbd>`;
   const R = state.research, idle = isUnlocked(T.lab) && !R.active && !R.queue.length && TECHS.some(techAvailable);
   $('researchBtn').innerHTML = ico('flask') + (idle ? '<span class="badge"></span>' : '');
   $('musicBtn').innerHTML = ico(Sound.prefs.on ? 'music' : 'mute');
@@ -2164,13 +2288,15 @@ function costHTML(c){
 }
 const trayTypes = () => TYPES.map((_, t) => t).filter(t => t > 0 && isUnlocked(t));
 function renderTray(){
-  const tray = $('tray'); tray.innerHTML = '';
-  trayTypes().forEach((t, k) => {
-    const ty = TYPES[t], c = costOf(t), ok = canAfford(c), b = document.createElement('button');
-    b.className = 'card' + (state.sel === t ? ' sel' : '') + (state.fresh.has(t) ? ' new' : '') + (ok ? '' : ' poor');
-    b.id = 'card-' + ty.id; b.title = ty.name + (ok ? '' : ` · needs ${shortOf(c)} more`);
+  const tray = $('tray'), phone = isPhone(); tray.innerHTML = '';
+  if (phone) tray.innerHTML = `<div class="trayHead">Build<small>${fmtInt(state.res.alloy)} alloy</small><button class="x" data-close aria-label="Close build sheet">&#10005;</button></div>`
+    + `<div class="cats">${Object.entries(CATS).map(([k, [name, ids]]) => `<button class="catb${k === pCat ? ' on' : ''}${ids.some(id => state.fresh.has(T[id])) ? ' new' : ''}" data-cat="${k}">${name}</button>`).join('')}</div>`;
+  (phone ? CATS[pCat][1].map(id => T[id]) : trayTypes()).forEach((t, k) => {
+    const ty = TYPES[t], c = costOf(t), ok = canAfford(c), open = isUnlocked(t), b = document.createElement('button');
+    b.className = 'card' + (state.sel === t ? ' sel' : '') + (state.fresh.has(t) ? ' new' : '') + (ok ? '' : ' poor') + (open ? '' : ' locked');
+    b.id = 'card-' + ty.id; b.title = ty.name + (!open ? ' · locked' : ok ? '' : ` · needs ${shortOf(c)} more`); b.disabled = !open;
     b.append(iconCanvas(t));
-    b.insertAdjacentHTML('beforeend', `<span class="nm">${ty.name}</span><span class="cost">${costHTML(c)}</span>${state.counts[t] ? `<span class="ct">×${state.counts[t]}</span>` : ''}<span class="hk">${k < 9 ? k + 1 : k === 9 ? 0 : ''}</span>`);
+    b.insertAdjacentHTML('beforeend', `<span class="nm">${ty.name}</span><span class="cost">${open ? costHTML(c) : '<span class="dim">Locked</span>'}</span>${state.counts[t] ? `<span class="ct">×${state.counts[t]}</span>` : ''}<span class="hk">${k < 9 ? k + 1 : k === 9 ? 0 : ''}</span>`);
     b.onclick = () => { Sound.start(); select(state.sel === t ? -1 : t); };
     tray.appendChild(b);
   });
@@ -2229,9 +2355,9 @@ function renderResearch(){
   $('rsData').textContent = `${fmtNum(P.prod.data)} data/sol` + (state.dataBank > 0 ? ` · ${fmtInt(state.dataBank)} banked` : '');
   $('rsQueue').innerHTML = (R.active ? `<span class="q act">Now: ${TECH[R.active].name} ${Math.round(R.progress / techCost(TECH[R.active]) * 100)}%</span>` : '<span class="dim">Nothing in progress.</span>')
     + R.queue.map((id, k) => `<span class="q">${k + 1}. ${TECH[id].name}</span>`).join('');
-  const grid = $('techGrid'); grid.innerHTML = '';
+  const grid = $('techGrid'); grid.innerHTML = `<div class="tierTabs">${[1, 2, 3, 4].map(n => `<button class="catb${n === pTier ? ' on' : ''}" data-tier="${n}">Tier ${n}</button>`).join('')}</div>`;
   for (const tier of [1, 2, 3, 4]) {
-    const col = document.createElement('div'); col.className = 'tcol';
+    const col = document.createElement('div'); col.className = 'tcol' + (tier === pTier ? ' on' : '');
     const lock = tierOpen(tier) ? '' : tierLock(tier);
     col.innerHTML = `<h4>Tier ${tier}${TIER_STAGE[tier] ? ` · ${STAGES[TIER_STAGE[tier]].name}` : ''}</h4>${lock ? `<p class="tl">${lock}</p>` : ''}`;
     for (const tc of TECHS.filter(x => x.tier === tier)) {
@@ -2252,9 +2378,8 @@ function openResearch(){ if (!state.running) return; renderResearch(); $('resear
 
 function showOver(reason){
   const d = D();
-  const titles = { collapse:'The crew evacuated', charter:'Charter withdrawn', ended:'Colony report' };
-  const subs = { collapse:`Morale stayed at zero for ${d.collapse} sols, and the crews boarded the lander.`,
-    charter:`Sol ${d.charter} passed before the planet came alive, and the charter board withdrew its funding.`, ended:'You ended the colony here.' };
+  const titles = { collapse:'The crew evacuated', ended:'Colony report' };
+  const subs = { collapse:`Morale stayed at zero for ${d.collapse} sols, and the crews boarded the lander.`, ended:'You ended the colony here.' };
   $('overEyebrow').textContent = `${d.name} · sol ${state.sol}`;
   $('overTitle').textContent = titles[reason]; $('overSub').textContent = subs[reason];
   $('oTi').textContent = fmtInt(tiTotal()); $('oStage').textContent = state.stage; $('oSol').textContent = state.sol;
@@ -2270,9 +2395,201 @@ function showVictory(){
 }
 function select(t){
   if (t >= 0 && !isUnlocked(t)) return;
-  state.sel = t; lastTap = -1;
+  state.sel = t; lastTap = -1; pTile = -1;
   if (t >= 0) { Sound.select(); state.fresh.delete(t); }
+  if (isPhone()) setSheet(null);
   renderUI(); updateHover();
+}
+
+// ================= PHONE UI: status strip, bottom dock, sheets, Place here =================
+const isPhone = () => innerWidth <= 760;
+let pTile = -1, pSheet = null, pCat = 'living', pTier = 1, mapZoom = 0;
+const CATS = {
+  living: ['Living', ['hab', 'farm', 'electrolyzer', 'algae', 'commons', 'arcology']],
+  power: ['Power', ['solar', 'tidal', 'geo', 'battery', 'reactor']],
+  industry: ['Industry', ['drill', 'smelter', 'cdrill', 'assembler', 'lab', 'spire', 'skyport', 'launcher']],
+  terraform: ['Terraform', ['heater', 'vapor', 'biodome', 'atmo', 'arbor']],
+  support: ['Support', ['relay', 'dronehub', 'shield']],
+};
+Object.assign(ICONS, {
+  build: '<path fill-rule="evenodd" d="M8 1l6 3.5v7L8 15l-6-3.5v-7zM7 4.8v2.4H4.6v1.6H7v2.4h2V8.800h2.400V7.200H9V4.800z"/>',
+  map: '<path fill-rule="evenodd" d="M1 3l4.500-1.500L10.500 3 15 1.500V13l-4.500 1.500L5.500 13 1 14.500zM5 3.200v8.600l-2.500.8V4zM6.500 3.300l3 1v8.400l-3-1zM11 4.200l2.500-.8v8.600l-2.500.8z"/>',
+  menu: '<path d="M2 3.500h12v2H2zM2 7h12v2H2zM2 10.500h12v2H2z"/>',
+});
+function setSheet(k){
+  if (pSheet === 'map' && k !== 'map' && mapZoom) { cam.z = mapZoom; mapZoom = 0; clampCam(); terrainDirty = miniDirty = true; }
+  if (k === 'map' && pSheet !== 'map') { mapZoom = cam.z; cam.z = ZMIN; clampCam(); terrainDirty = miniDirty = true; }
+  if (pSheet === 'hex' && k !== 'hex' && state.sel < 0) pTile = -1;
+  pSheet = k; $('resCard').hidden = true;
+  if (k) $('app').dataset.sheet = k; else delete $('app').dataset.sheet;
+  renderPSheet(); renderDock(); updateHover();
+}
+function renderDock(){
+  const R = state.research, idle = isUnlocked(T.lab) && !R.active && !R.queue.length && TECHS.some(techAvailable);
+  $('dBuild').innerHTML = `${ico('build')}Build`; $('dResearch').innerHTML = `${ico('flask')}Research${idle ? '<span class="badge"></span>' : ''}`;
+  $('dMap').innerHTML = `${ico('map')}Map`; $('dMenu').innerHTML = `${ico('menu')}Menu`;
+  $('dMap').classList.toggle('on', pSheet === 'map');
+}
+function renderPhone(){
+  if (!isPhone()) return;
+  const P = state.proj, s = state.res, ti = tiTotal(), st = state.stage, cur = STAGES[st].ti, nxt = STAGES[st + 1];
+  const fill = nxt ? Math.max(0, Math.min(100, (ti - cur) / (nxt.ti - cur) * 100)) : 100, fs = foodSols(P), pow = P.powSup + P.discharge, m = Math.round(state.morale);
+  const chip = (val, label, cls = '') => `<div class="chip ${cls}">${val}<small>${label}</small></div>`;
+  const alloyNet = P.smelt + P.prod.alloy - P.asm, foodNet = P.prod.rations - P.cons;
+  $('pStrip').innerHTML = `<div class="pHead"><b>${fmtInt(ti)}</b><span>${STAGES[st].name}</span><small>Sol ${state.sol}</small></div><div class="bar"><i style="width:${fill}%"></i></div>`
+    + `<div class="chips">${chip(fmtInt(s.alloy), `Alloy ${fmtNet(alloyNet)}`)}${chip(fmtInt(s.rations), `Food ${fmtNet(foodNet)}`, fs <= 1 ? 'bad' : fs <= 3 ? 'warn' : '')}${chip(`${fmtNum(P.powDem)}/${fmtNum(pow)}`, 'Power', P.E.power < .999 ? 'bad' : '')}${chip(m, 'Morale', m < 25 ? 'bad' : m < 50 ? 'warn' : '')}<div class="chip more" aria-label="All resources">&#9662;</div></div>`
+    + ($('alerts').innerHTML ? `<div class="pAl">${$('alerts').innerHTML}</div>` : '');
+  const g = GOALS.find(x => !state.goals.has(x.id)), R = state.research;
+  let goal = '';
+  if (g) goal = `Next: ${g.text} <b>${fmtInt(Math.min(g.need, goalValue(g)))}/${g.need}</b>`;
+  else if (R.active) goal = `${TECH[R.active].name} <b>${fmtInt(R.progress)}/${techCost(TECH[R.active])}</b>`;
+  else if (isUnlocked(T.lab)) goal = 'Labs idle: tap to queue research';
+  $('pGoal').innerHTML = state.running ? goal : '';
+  $('pHome').innerHTML = ico('home');
+  renderDock(); renderPSheet(); renderPlaceCard();
+}
+function renderPlaceCard(){
+  const el = $('placeCard');
+  if (!isPhone() || state.sel < 0) { if (el.dataset.key) { el.innerHTML = ''; el.dataset.key = ''; } return; }
+  const t = state.sel, ty = TYPES[t], c = costOf(t);
+  let yieldH = '', note = `${costText(c)} · tap a hex to preview`, budget = '', ok = false;
+  if (pTile >= 0) {
+    const ev = evaluate(pTile, t); ok = ev.ok;
+    note = ok ? `${costText(ev.cost)} · tap another hex to compare` : `<span class="n">${ev.reason}</span>`;
+    if (!siteReason(pTile, ty) && world.zone[pTile]) {
+      yieldH = ty.out ? `+${ev.out}<small>${outLabel(ty)}</small>` : `<small>${ty.shield ? 'meteor defense' : 'extends the zone'}</small>`;
+      budget = projLines(ty, ev);
+    }
+  }
+  const rules = (ty.rules || []).map(([k, v, reach]) => `<span class="${v < 0 ? 'n' : ''}">${v > 0 ? '+' : ''}${v} ${KEY_LABEL(k)}${reach === 1 ? ' (adj)' : ''}</span>`).join('');
+  const key = [t, pTile, note, yieldH, budget].join('|');
+  if (el.dataset.key === key) return;
+  el.dataset.key = key;
+  el.innerHTML = `<div class="pcTop"><img src="${iconFor(t).toDataURL()}" alt=""><div><b>${ty.name}</b><small>${note}</small></div><div class="pcYield">${yieldH}</div></div>`
+    + (rules ? `<div class="pcRules">${rules}</div>` : '') + (budget ? `<div class="pcBudget">${budget}</div>` : '')
+    + `<div class="pcBtns"><button class="go" id="pPlace"${ok ? '' : ' disabled'}>Place here</button><button id="pCancel">Cancel</button></div>`;
+}
+function renderPSheet(){
+  const el = $('pSheet'), P = state.proj;
+  if (!pSheet || pSheet === 'build') { el.innerHTML = ''; if (pSheet === 'build') renderTray(); return; }
+  const head = (title, sub = '') => `<div class="trayHead">${title}<small>${sub}</small><button class="x" data-close aria-label="Close">&#10005;</button></div>`;
+  if (pSheet === 'status') {
+    const top = el.scrollTop; el.innerHTML = head('Colony status', 'Next sol') + $('groups').innerHTML + '<p class="dim" style="margin:6px 0 0">Tap a row for what makes it, what uses it and what happens if it runs short.</p>'; el.scrollTop = top;
+  } else if (pSheet === 'map') {
+    const found = world.monoliths.filter(i => state.found.has(i)).length;
+    el.innerHTML = head(world.name, `${found}/${world.monoliths.length} monoliths`) + '<div class="dim">Drag to look around, or tap the map to jump there.</div><div class="sheetActs"><button class="fixb" data-home>Return to lander</button></div>';
+  } else if (pSheet === 'hex' && pTile >= 0) {
+    const i = pTile, fits = world.bld[i] < 0 && world.zone[i] ? trayTypes().filter(t => TYPES[t].site && !siteReason(i, TYPES[t])).slice(0, 3) : [];
+    el.innerHTML = head('Hex details') + `<div>${tipHTML(i)}</div>` + (fits.length ? `<div class="sheetActs">${fits.map(t => `<button class="fixb" data-build="${t}">Build ${TYPES[t].name} here</button>`).join('')}</div>` : '');
+  }
+}
+function phoneTap(x, y){
+  const i = pickTile(x, y);
+  if (pSheet === 'map') { setSheet(null); if (i >= 0) centerOn(i % W, (i / W) | 0); return; }
+  if (pSheet === 'build' || pSheet === 'status') { setSheet(null); return; }
+  if (i < 0) return;
+  if (state.placed.some(p => p.i === i && p.dmg) && (state.sel < 0 || world.bld[i] >= 0)) { repair(i); return; }
+  if (state.sel >= 0) {
+    if (lastTap === i) { lastTap = -1; pTile = -1; place(i); }
+    else { lastTap = i; pTile = i; updateHover(); }
+    return;
+  }
+  pTile = i; setSheet('hex');
+}
+$('pStrip').onclick = e => { if (e.target.closest('.chips') && state.running && state.sel < 0) setSheet(pSheet === 'status' ? null : 'status'); };
+$('pGoal').onclick = () => { if (isUnlocked(T.lab)) openResearch(); };
+$('pHome').onclick = () => centerOn(...world.home);
+$('dBuild').onclick = () => {
+  if (!state.running) return; Sound.start();
+  const fresh = Object.keys(CATS).find(k => CATS[k][1].some(id => state.fresh.has(T[id])));
+  if (fresh && pSheet !== 'build') pCat = fresh;
+  setSheet(pSheet === 'build' ? null : 'build');
+};
+$('dResearch').onclick = () => { setSheet(null); openResearch(); };
+$('dMap').onclick = () => setSheet(pSheet === 'map' ? null : 'map');
+$('dMenu').onclick = () => { setSheet(null); pause(); };
+$('tray').addEventListener('click', e => {
+  const cat = e.target.closest('[data-cat]');
+  if (cat) { pCat = cat.dataset.cat; renderTray(); }
+  else if (e.target.closest('[data-close]')) setSheet(null);
+});
+$('pSheet').addEventListener('click', e => {
+  const q = s => e.target.closest(s), fix = q('[data-sel]'), bd = q('[data-build]'), row = q('.rl');
+  if (q('[data-close]')) setSheet(null);
+  else if (q('[data-home]')) { setSheet(null); centerOn(...world.home); }
+  else if (fix) select(T[fix.dataset.sel]);
+  else if (bd) { const i = pTile; select(+bd.dataset.build); pTile = lastTap = i; updateHover(); }
+  else if (row) showResCard(row);
+});
+$('resCard').onclick = () => { $('resCard').hidden = true; };
+$('placeCard').addEventListener('click', e => {
+  if (e.target.closest('#pCancel')) select(-1);
+  else if (e.target.closest('#pPlace') && pTile >= 0) { const i = pTile; pTile = lastTap = -1; place(i); }
+});
+$('techGrid').addEventListener('click', e => { const b = e.target.closest('[data-tier]'); if (b) { pTier = +b.dataset.tier; renderResearch(); } });
+
+// ================= SAVE EXPORT / IMPORT =================
+const SAVE_PREFIX = 'NOVA1:';
+function exportText(){
+  const save = loadSave(); if (!save) return '';
+  const best = {}; for (const k in DIFFS) { const b = getBest(k); if (b) best[k] = b; }
+  return SAVE_PREFIX + btoa(unescape(encodeURIComponent(JSON.stringify({ save, best }))));
+}
+function importText(text){
+  const t = text.trim();
+  if (!t.startsWith(SAVE_PREFIX)) throw new Error('That text is not a Nova Archipelago save. It should start with ' + SAVE_PREFIX);
+  let data; try { data = JSON.parse(decodeURIComponent(escape(atob(t.slice(SAVE_PREFIX.length))))); } catch (e) { throw new Error('That save text is damaged or incomplete. Try copying it again.'); }
+  const s = migrateSave(data.save);
+  if (!s) throw new Error('This save comes from a version this game can\'t read.');
+  localStorage.setItem(SAVE_KEY, JSON.stringify(s));
+  for (const k in data.best || {}) if (DIFFS[k]) { const b = getBest(k); if (!b || data.best[k] < b) localStorage.setItem('nova-best-sols-' + k, data.best[k]); }
+  return s;
+}
+function openIO(mode){
+  const exp = mode === 'export', box = $('ioBox'), msg = $('ioMsg'), text = exp ? exportText() : '';
+  $('ioTitle').textContent = exp ? 'Export save' : 'Import save';
+  $('ioText').textContent = exp ? (text ? 'Copy this text somewhere safe, or paste it into another browser. It includes your best scores.' : 'There is no colony save to export yet.') : 'Paste a save here. It replaces the current colony.';
+  box.value = text; box.readOnly = exp; msg.hidden = true;
+  $('ioAction').textContent = exp ? 'Copy' : 'Load save'; $('ioAction').hidden = exp && !text;
+  $('ioAction').onclick = () => {
+    if (exp) { box.select(); const done = () => { msg.textContent = 'Copied.'; msg.className = 'p'; msg.hidden = false; }; navigator.clipboard ? navigator.clipboard.writeText(text).then(done, () => {}) : done(); return; }
+    try {
+      const s = importText(box.value);
+      closeAll(); Sound.start(); newGame(s.seed, s); state.running = true;
+      feed(`Colony imported · sol ${state.sol}`, 'good'); afterChange();
+    } catch (err) { msg.textContent = err.message; msg.className = 'n'; msg.hidden = false; }
+  };
+  $('ioModal').hidden = false; $('tip').hidden = true;
+}
+$('exportBtn').onclick = () => openIO('export');
+$('importBtn').onclick = () => openIO('import');
+$('startImport').onclick = () => openIO('import');
+$('ioClose').onclick = () => { $('ioModal').hidden = true; };
+
+// ================= DEV TOOLS (?dev in the URL): sol skips stand in for game speed in this turn-based game =================
+let devFree = false, devQuiet = false;
+function devRunSols(n){ devQuiet = true; for (let k = 0; k < n && state.running && !state.over; k++) endSol(true); devQuiet = false; }
+function devUnlock(){
+  TYPES.forEach((_, t) => { if (t > 0) state.unlocked.add(t); });
+  for (const g of GOALS) state.goals.add(g.id);
+  for (const tc of TECHS) if (!tc.repeat) state.tech[tc.id] = true;
+  rebuildZone(); afterChange();
+}
+function initDev(){
+  if (!/[?&]dev\b/.test(location.search)) return;
+  const el = $('devPanel'); el.hidden = false;
+  const acts = {
+    '+1 sol': () => devRunSols(1), '+10 sols': () => devRunSols(10), '+50 sols': () => devRunSols(50),
+    '+500 Ti': () => { state.ti.heat += 200; state.ti.press += 150; state.ti.bio += 150; checkStage(); afterChange(); },
+    'Resources': () => { Object.assign(state.res, { alloy: state.res.alloy + 200, crystal: state.res.crystal + 100, parts: state.res.parts + 50 }); state.res.rations = STORE.rations(); afterChange(); },
+    'Unlock all': devUnlock,
+  };
+  el.innerHTML = '<h4>?dev</h4>' + Object.keys(acts).map(k => `<button data-a="${k}">${k}</button>`).join('') + '<button id="devFreeBtn" aria-pressed="false">Free build</button>';
+  el.addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return;
+    if (b.id === 'devFreeBtn') { devFree = !devFree; b.setAttribute('aria-pressed', String(devFree)); afterChange(); }
+    else acts[b.dataset.a]();
+  });
 }
 
 // ================= HOVER, OVERLAY, INPUT, LOOP (v4) =================
@@ -2328,6 +2645,7 @@ function tipHTML(i){
   return h;
 }
 function updateHover(){
+  if (isPhone()) { hover = state.running && (state.sel >= 0 || pSheet === 'hex') ? pTile : -1; $('tip').hidden = true; renderPlaceCard(); return; }
   hover = mouse ? pickTile(mouse.x, mouse.y) : -1;
   const tip = $('tip');
   if (hover < 0 || !mouse || !(state.running || state.over) || anyModal()) { tip.hidden = true; return; }
@@ -2458,13 +2776,15 @@ ocv.addEventListener('pointermove', e => {
     if (!drag.moved && Math.hypot(dx, dy) > 6) { drag.moved = true; ocv.classList.add('dragging'); }
     if (drag.moved) { cam.x = drag.cx - dx / cam.z; cam.y = drag.cy - dy / cam.z; clampCam(); terrainDirty = miniDirty = true; }
   }
+  if (isPhone()) return;
   mouse = { x: e.clientX, y: e.clientY }; updateHover();
 });
 function endPointer(e){
   pointers.delete(e.pointerId); ocv.classList.remove('dragging');
   if (pointers.size < 2) pinch = null;
   if (drag && pointers.size === 0) {
-    if (!drag.moved && drag.btn === 0 && state.running) {
+    if (!drag.moved && drag.btn === 0 && state.running && isPhone()) phoneTap(e.clientX, e.clientY);
+    else if (!drag.moved && drag.btn === 0 && state.running) {
       mouse = { x: e.clientX, y: e.clientY }; updateHover();
       if (hover >= 0) {
         const damaged = state.placed.some(p => p.i === hover && p.dmg);
@@ -2499,9 +2819,10 @@ mcv.addEventListener('pointerup', () => miniDown = false);
 
 const keys = new Set();
 addEventListener('keydown', e => {
-  if (e.target && e.target.tagName === 'INPUT') return;
+  if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')) return;
   const k = e.key.toLowerCase();
   if (k === 'escape') {
+    if (!$('ioModal').hidden) { $('ioModal').hidden = true; return; }
     if (!$('confirmModal').hidden) { $('confirmModal').hidden = true; return; }
     if (!$('researchModal').hidden) { $('researchModal').hidden = true; return; }
     if (!$('helpPanel').hidden) { toggleHelp(false); return; }
@@ -2523,7 +2844,7 @@ addEventListener('keydown', e => {
 });
 addEventListener('keyup', e => keys.delete(e.key.toLowerCase()));
 addEventListener('blur', () => keys.clear());
-addEventListener('resize', () => { resize(); positionFeed(); });
+addEventListener('resize', () => { resize(); if (state.proj) renderUI(); positionFeed(); });
 
 // ---------- menus ----------
 let pickDiff = 'standard';
@@ -2537,7 +2858,7 @@ function toggleHelp(force){
 }
 function pause(){ if (state.running) state.running = false; $('pauseModal').hidden = false; $('tip').hidden = true; }
 function resume(){ $('pauseModal').hidden = true; if (!state.over && $('startModal').hidden) state.running = true; }
-function closeAll(){ for (const id of MODALS) $(id).hidden = true; }
+function closeAll(){ for (const id of MODALS) $(id).hidden = true; toggleHelp(false); setSheet(null); }
 function startNew(seed, diff){
   closeAll(); newGame(seed, null, diff || state.diff); state.running = true; Sound.start();
   scanDiscoveries();
@@ -2549,9 +2870,8 @@ function startNew(seed, diff){
 function renderDiffs(){
   $('diffs').innerHTML = Object.entries(DIFFS).map(([k, d]) => {
     const best = getBest(k);
-    return `<button class="diff" role="radio" aria-checked="${k === pickDiff}" data-d="${k}"><b>${d.name}</b><small>${best ? `best ${best} sols` : 'no record yet'}</small></button>`;
+    return `<button class="diff" role="radio" aria-checked="${k === pickDiff}" data-d="${k}"><b>${d.name}</b><span>${d.blurb}</span><small>${best ? `best ${best} sols` : 'no record yet'}</small></button>`;
   }).join('');
-  $('diffBlurb').textContent = DIFFS[pickDiff].blurb;
   for (const b of $('diffs').querySelectorAll('.diff')) b.onclick = () => { pickDiff = b.dataset.d; try { localStorage.setItem('nova-diff', pickDiff); } catch (e) {} renderDiffs(); };
 }
 function updateStart(){
@@ -2593,6 +2913,8 @@ $('groups').addEventListener('mouseleave', () => { $('resCard').hidden = true; }
 $('groups').addEventListener('focusout', () => { $('resCard').hidden = true; });
 $('rsClose').onclick = () => $('researchModal').hidden = true;
 $('resumeBtn').onclick = resume;
+$('pauseHelp').onclick = () => { resume(); toggleHelp(true); };
+$('pauseMusic').onclick = toggleMusic;
 $('restartBtn').onclick = () => startNew(state.seed, state.diff);
 $('newWorldBtn').onclick = showStart;
 $('endBtn').onclick = () => { $('pauseModal').hidden = true; state.running = true; gameOver('ended'); };
@@ -2627,7 +2949,7 @@ function start(data){
   newGame(snap ? snap.seed : randSeed(), snap || null, pickDiff);
   if (snap && snap.running) { closeAll(); state.running = true; }
   else cam.z = .8;
-  updateStart(); renderUI();
+  updateStart(); renderUI(); initDev();
   window.claude?.hot?.snapshot?.(() => ({ nova4: { ...serialize(), running: state.running } }));
   if (document.fonts) document.fonts.ready.then(() => { terrainDirty = true; });
   requestAnimationFrame(frame);

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 96" width="420" height="96" role="img" aria-label="Nova Archipelago">
+  <rect width="420" height="96" rx="10" fill="#06111a"/>
+  <g transform="translate(12 12) scale(2.25)">
+    <polygon points="16,3.5 26.8,9.75 26.8,22.25 16,28.5 5.2,22.25 5.2,9.75" fill="none" stroke="#6fe7e0" stroke-width="2"/>
+    <path d="M9.5 20.5 Q12 14 15.5 15.5 Q18 11 22.5 20.5 Z" fill="#ffc15a"/>
+  </g>
+  <g font-family="Oxanium, 'Chakra Petch', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-weight="800" font-size="36">
+    <text x="96" y="44" fill="#e7f3f1">NOVA</text>
+    <text x="96" y="80" fill="#ffc15a">ARCHIPELAGO</text>
+  </g>
+</svg>
