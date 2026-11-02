@@ -47,24 +47,54 @@ kbd{font-family:var(--mono);font-size:10px;border:1px solid var(--line);padding:
 #tiParts span{display:flex;align-items:center;gap:3px}
 #tiParts small{font-size:10px;color:var(--muted)}
 
-#econ{padding:9px 12px;display:grid;gap:8px;min-width:0}
-#buds{display:grid;grid-template-columns:repeat(5,minmax(86px,1fr));gap:10px}
-.bud{display:grid;gap:3px;font-size:11px;align-content:start}
-.bud .bl{display:flex;justify-content:space-between;gap:6px;color:var(--muted);letter-spacing:.04em}
-.bud .bl b{font-family:var(--mono);font-weight:500;color:var(--text);font-variant-numeric:tabular-nums}
-.bud small{font-family:var(--mono);font-size:10px;color:var(--muted)}
-.mbar{height:4px;background:rgba(111,231,224,.12);position:relative;overflow:hidden}
-.mbar i{position:absolute;inset:0 auto 0 0;background:var(--cyan);transition:width .3s}
-.bud.tight .mbar i{background:var(--warn)} .bud.full .mbar i{background:var(--neg)} .bud.full .bl b{color:var(--neg)}
-.bud.morale .mbar i{background:#ff9fd0}
-.bud.morale.tight .mbar i{background:var(--warn)} .bud.morale.full .mbar i{background:var(--neg)}
-#stock{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12px;align-items:center}
-.stk{display:flex;align-items:center;gap:4px;font-family:var(--mono);font-variant-numeric:tabular-nums}
-.stk b{font-weight:500;color:var(--text)}
-.stk span{color:var(--muted);font-size:11px}
-.stk.low span{color:var(--neg)}
-.stk.bump b{animation:bump .6s ease}
+#econ{display:grid;gap:6px;min-width:0;flex:1 1 560px;max-width:800px}
+#groups{display:grid;grid-template-columns:1.1fr 1.05fr .85fr;gap:8px}
+.grp{background:var(--panel);border:1px solid var(--line);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);padding:8px 10px 9px;display:grid;gap:6px;align-content:start;min-width:0}
+.grp h4{margin:0;font-size:10px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.rl{display:grid;grid-template-columns:16px 72px minmax(30px,1fr) auto;gap:4px 8px;align-items:center;font-size:13px;cursor:help;outline-offset:3px}
+.rl .rn{font-weight:600;white-space:nowrap}
+.rl .rv{font-family:var(--mono);font-size:12.5px;text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.rl .rv small{font-size:11px;color:var(--muted)}
+.rl .rv .p,.rl .rv .n{font-size:11px}
+.rl.tight .rv b{color:var(--warn)} .rl.bad .rv b{color:var(--neg)}
+.trk{height:8px;background:rgba(111,231,224,.10);position:relative;overflow:hidden}
+.trk i{position:absolute;inset:0 auto 0 0;transition:width .3s}
+.trk u{position:absolute;top:0;bottom:0;width:2px;background:rgba(6,17,26,.85)}
+.rl.tight .trk i{background:var(--warn)!important} .rl.bad .trk i{background:var(--neg)!important}
+.rl .rnote{grid-column:2 / -1;margin-top:-3px;font-size:11.5px;line-height:1.3;color:var(--muted);display:flex;flex-wrap:wrap;gap:4px 8px;align-items:center}
+.rl.tight .rnote{color:#ffd59a} .rl.bad .rnote{color:#ffb3bd}
+.fixb{cursor:pointer;font:600 11px/1 var(--body);padding:4px 7px;border:1px solid var(--line2);background:rgba(111,231,224,.08);color:var(--cyan);white-space:nowrap}
+.fixb:hover{background:rgba(111,231,224,.18)}
+.rl.bump .rv b{animation:bump .6s ease}
 @keyframes bump{0%{color:var(--amber)}100%{color:var(--text)}}
+
+/* ---- resource hover card ---- */
+#resCard{position:absolute;z-index:4;width:300px;padding:11px 13px;background:var(--panel2);border-color:var(--line2);box-shadow:0 10px 30px rgba(0,0,0,.5);font-size:12.5px;line-height:1.4;pointer-events:none}
+#resCard .hd{display:flex;align-items:center;gap:7px;margin-bottom:7px}
+#resCard .hd b{font-family:var(--display);font-size:16px}
+#resCard .hd span{margin-left:auto;font:500 10px/1 var(--mono);border:1px solid var(--line2);padding:3px 5px;color:var(--cyan);letter-spacing:.06em}
+#resCard dl{display:grid;grid-template-columns:auto 1fr;gap:5px 10px;margin:0}
+#resCard dt{color:var(--muted);font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding-top:2px}
+#resCard dd{margin:0}
+
+/* ---- danger banner ---- */
+#danger{flex:1 1 100%;max-width:760px;display:grid;grid-template-columns:auto 1fr;gap:3px 14px;padding:9px 14px;border:1px solid;background:var(--panel);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+#danger .big{grid-row:span 3;align-self:center;text-align:center;min-width:54px;font-family:var(--display);font-weight:800;font-size:34px;line-height:1}
+#danger .big small{display:block;font:500 10px/1.3 var(--body);letter-spacing:.14em;text-transform:uppercase}
+#danger h3{margin:0;font-family:var(--display);font-size:16px;letter-spacing:.03em}
+#danger .why{font-size:12.5px}
+#danger .fix{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;font-size:12px}
+#danger .parts{display:flex;flex-wrap:wrap;gap:2px 10px;font-family:var(--mono);font-size:11.5px}
+#danger.lv1{border-color:var(--warn);background:linear-gradient(90deg,rgba(255,179,90,.2),var(--panel) 65%)}
+#danger.lv1 .big,#danger.lv1 h3{color:var(--warn)}
+#danger.lv2,#danger.lv3{border-color:var(--neg);background:linear-gradient(90deg,rgba(255,107,125,.3),var(--panel) 65%);animation:dpulse 1.6s ease-in-out infinite}
+#danger.lv2 .big,#danger.lv2 h3,#danger.lv3 .big,#danger.lv3 h3{color:var(--neg)}
+@keyframes dpulse{50%{box-shadow:0 0 24px rgba(255,107,125,.5)}}
+.pips{display:flex;gap:4px;align-items:center}
+.pips i{width:16px;height:6px;background:rgba(255,107,125,.25)}
+.pips i.on{background:var(--neg)}
+#vignette{position:absolute;inset:0;z-index:1;pointer-events:none;box-shadow:inset 0 0 90px 20px rgba(255,40,70,.5);animation:vpulse 1.6s ease-in-out infinite}
+@keyframes vpulse{50%{box-shadow:inset 0 0 130px 30px rgba(255,40,70,.72)}}
 #alerts{display:flex;flex-wrap:wrap;gap:6px}
 .al{display:inline-flex;align-items:center;gap:5px;font-size:11px;padding:2px 8px;border:1px solid var(--line);background:rgba(255,255,255,.03)}
 .al.bad{border-color:rgba(255,107,125,.5);color:#ffb3bd}
@@ -116,6 +146,9 @@ kbd{font-family:var(--mono);font-size:10px;border:1px solid var(--line);padding:
 
 #endSol{right:16px;bottom:calc(var(--mini-h,200px) + 10px);width:214px;box-sizing:border-box;cursor:pointer;display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--amber);color:#1b1206;border:0;font-family:var(--display);font-weight:800;font-size:15px;letter-spacing:.06em;text-transform:uppercase;clip-path:polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px)}
 #endSol:hover{background:#ffd27f}
+#endSol.danger{background:var(--neg);color:#2a0008}
+#endSol.danger:hover{background:#ff8d9b}
+#endSol.danger kbd{color:#2a0008;border-color:rgba(42,0,8,.4)}
 #endSol .ic{font-size:18px}
 #endSol > span{display:grid;line-height:1.05;text-align:left}
 #endSol small{font-family:var(--mono);font-weight:500;font-size:10px;letter-spacing:0;text-transform:none;opacity:.75}
@@ -174,6 +207,8 @@ kbd{font-family:var(--mono);font-size:10px;border:1px solid var(--line);padding:
 .btn:hover{border-color:var(--cyan);color:var(--cyan)}
 .btn.pri{background:var(--cyan);color:#04201f;border-color:var(--cyan)}
 .btn.pri:hover{background:#9af3ee;color:#04201f}
+.btn.danger{background:var(--neg);color:#2a0008;border-color:var(--neg)}
+.btn.danger:hover{background:#ff8d9b;color:#2a0008}
 .btn small{display:block;font-family:var(--mono);font-weight:400;letter-spacing:0;text-transform:none;font-size:11px;opacity:.8;margin-top:2px}
 .seed{font-family:var(--mono);font-size:12px;color:var(--muted);margin-left:auto}
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:6px 0 20px}
@@ -202,34 +237,17 @@ kbd{font-family:var(--mono);font-size:10px;border:1px solid var(--line);padding:
 .sliders label{display:grid;grid-template-columns:110px 1fr;gap:10px;align-items:center;font-size:13px;color:var(--muted)}
 .sliders input{accent-color:var(--cyan);width:100%}
 
-/* ---- compute (the turn timer) & doom alarms ---- */
-.bud.compute .mbar i{background:#7fb4ff;transition:none}
-.bud.compute.tight .mbar i{background:var(--warn)} .bud.compute.tight .bl b{color:var(--warn)}
-.bud.compute.full .mbar i{background:var(--neg)} .bud.compute.full{animation:blink .5s steps(2) infinite}
-@keyframes blink{50%{opacity:.25}}
-#alerts .al.bad{animation:shake .35s infinite,flash .7s steps(2) infinite}
-@keyframes shake{0%,100%{transform:translate(0,0)}25%{transform:translate(-2px,1px) rotate(-1deg)}75%{transform:translate(2px,-1px) rotate(1deg)}}
-@keyframes flash{50%{background:rgba(255,107,125,.45);color:#fff}}
-#doomEdge{position:absolute;inset:0;z-index:4;pointer-events:none;opacity:0;box-shadow:inset 0 0 120px 40px rgba(255,30,60,.8)}
-#app.doom1 #doomEdge{animation:edge 1.4s ease-in-out infinite}
-#app.doom2 #doomEdge,#app.doom3 #doomEdge{animation:edge .45s ease-in-out infinite}
-#app.doom2 #top{animation:shake .25s infinite}
-@keyframes edge{50%{opacity:1}}
-#doomBox{position:absolute;z-index:6;left:0;top:0;padding:14px 22px;font-family:var(--display);font-weight:700;font-size:24px;letter-spacing:.08em;text-transform:uppercase;color:#fff;background:#d0102e;border:3px solid #ffe27a;cursor:not-allowed;text-align:center;box-shadow:0 0 40px rgba(255,30,60,.8);user-select:none;white-space:nowrap}
-#doomBox.alt{background:#ffe27a;color:#d0102e;border-color:#d0102e}
-#doomBox small{display:block;margin-top:4px;font-family:var(--mono);font-size:12px;letter-spacing:0;text-transform:none;font-weight:400}
-
-@media (max-width:1180px){ #buds{grid-template-columns:repeat(3,minmax(100px,1fr))} }
+@media (max-width:1180px){ .rl{grid-template-columns:16px 62px minmax(24px,1fr) auto} }
 @media (max-width:760px){
   #tiBox{width:auto;flex:1 1 120px;min-width:0;padding:8px 10px}
   .tiHead > span:first-child{display:none}
   #tiVal{font-size:24px} #tiParts{display:none}
   #tools{gap:4px}
   .ibtn{width:34px;height:34px;font-size:15px}
-  #econ{order:3;flex:1 1 100%;padding:7px 10px;gap:6px}
-  #buds{grid-template-columns:repeat(5,1fr);gap:8px}
-  .bud .bn,.bud small{display:none}
-  #stock{gap:2px 10px;font-size:11px}
+  #econ{order:3;flex:1 1 100%;max-width:none;gap:6px}
+  #groups{gap:6px} .grp{padding:6px 7px;gap:5px} .grp h4{display:none}
+  .rl{grid-template-columns:14px 1fr;gap:2px 6px;font-size:12px} .rl .rn,.rl .rnote{display:none} .rl .trk{grid-column:1 / -1;height:5px}
+  #danger{order:4;padding:7px 10px;gap:2px 10px} #danger .big{font-size:24px;min-width:38px} #danger .why{font-size:11.5px}
   #goals{width:auto;right:16px;padding:7px 10px;max-height:72px}
   #goals .gl li.done,#goals .gt small,#goals .rq{display:none}
   #tray{right:16px}
@@ -260,9 +278,8 @@ kbd{font-family:var(--mono);font-size:10px;border:1px solid var(--line);padding:
       <div id="tiNext"></div>
       <div id="tiParts"></div>
     </div>
-    <div id="econ" class="panel">
-      <div id="buds"></div>
-      <div id="stock"></div>
+    <div id="econ">
+      <div id="groups"></div>
       <div id="alerts" hidden></div>
     </div>
     <div id="tools">
@@ -272,12 +289,13 @@ kbd{font-family:var(--mono);font-size:10px;border:1px solid var(--line);padding:
       <button class="ibtn" id="helpBtn" title="Field notes (?)" aria-label="Field notes" aria-expanded="false" aria-controls="helpPanel"></button>
       <button class="ibtn" id="pauseBtn" title="Menu (Esc)" aria-label="Menu"></button>
     </div>
+    <div id="danger" role="alert" hidden></div>
   </div>
+  <div id="vignette" hidden></div>
+  <div id="resCard" class="panel" hidden></div>
 
   <div id="goals" class="hud panel" hidden></div>
   <div id="feed" aria-live="polite"></div>
-  <div id="doomEdge"></div>
-  <div id="doomBox" hidden></div>
   <div id="info" class="hud panel"></div>
   <div id="helpPanel" class="hud panel" hidden>
     <div class="hhead"><h3>Field notes</h3><button class="x" id="helpClose" aria-label="Close field notes">&#10005;</button></div>
@@ -285,7 +303,7 @@ kbd{font-family:var(--mono);font-size:10px;border:1px solid var(--line);padding:
       <dt>Sols</dt><dd>Build whatever you can afford, then press End sol. Production, upkeep and research run once per sol. Fewer sols to Living World is a better result.</dd>
       <dt>Build zone</dt><dd>The dashed line. Every structure extends it; Relay Pylons reach 5 hexes and Drone Hubs 4. Dim land is unsurveyed.</dd>
       <dt>Efficiency</dt><dd>Structures run at reduced output when power, oxygen or crew fall short, and when morale drops below 50. Check the meters before you build.</dd>
-      <dt>Upkeep</dt><dd>Every housed crew member eats rations each sol. Hungry or short of air, crews lose morale fast. On Standard and Hard, morale stuck at zero evacuates the colony.</dd>
+      <dt>Upkeep</dt><dd>Every housed crew member eats food each sol. Hungry or short of air, crews lose morale fast. On Standard and Hard, morale stuck at zero evacuates the colony.</dd>
       <dt>Hazards</dt><dd>Dust storms cut solar (Battery Banks help). Cold snaps halve farms without an adjacent Heater. Meteors knock structures offline (Point Defense, or click to repair).</dd>
       <dt>Unlocks</dt><dd>Early milestones unlock the first buildings and the Research Lab. After that, research unlocks everything else. Its tiers open at terraforming stages.</dd>
       <dt>Monoliths</dt><dd>Cyan ? signals. Survey one for a research breakthrough and permanent Ti.</dd>
@@ -327,6 +345,18 @@ kbd{font-family:var(--mono);font-size:10px;border:1px solid var(--line);padding:
       <div id="rsQueue"></div>
       <div class="tech" id="techGrid"></div>
       <div class="row"><button class="btn" id="rsClose">Close</button></div>
+    </div>
+  </div>
+
+  <div id="confirmModal" class="modal" hidden>
+    <div class="sheet">
+      <div class="eyebrow" style="color:var(--neg)">Final sol</div>
+      <h2 id="confirmTitle">End the sol anyway?</h2>
+      <p id="confirmText"></p>
+      <div class="row">
+        <button class="btn pri" id="confirmBack">Go back and fix it</button>
+        <button class="btn danger" id="confirmEnd">End sol</button>
+      </div>
     </div>
   </div>
 
@@ -458,16 +488,15 @@ const RES = {
   alloy:   { name:'Alloy',          unit:'alloy',      col:'#c7d2dc', icon:'alloy' },
   crystal: { name:'Crystal',        unit:'crystal',    col:'#c9a8ff', icon:'crystal' },
   parts:   { name:'Components',     unit:'components', col:'#9ff0c8', icon:'parts' },
-  rations: { name:'Rations',        unit:'rations',    col:'#ffd38a', icon:'rations' },
+  rations: { name:'Food',           unit:'food',       col:'#ffd38a', icon:'rations' },
   data:    { name:'Data',           unit:'data',       col:'#6fe7e0', icon:'data' },
   sail:    { name:'Solar sails',    unit:'sails',      col:'#ffd36b', icon:'sail' },
-  compute: { name:'Compute',        unit:'s',          col:'#7fb4ff', icon:'compute' },
 };
 // what a placement value produces, how it reads, and which resource colours it
 const OUT = {
   ti:{ label:'Ti/sol', res:'ti' }, power:{ label:'power', res:'power' }, o2:{ label:'O₂', res:'o2' }, crew:{ label:'housing', res:'crew' },
   ore:{ label:'ore/sol', res:'ore' }, alloycap:{ label:'smelting/sol', res:'alloy' }, alloy:{ label:'alloy/sol', res:'alloy' },
-  partcap:{ label:'assembly/sol', res:'parts' }, crystal:{ label:'crystal/sol', res:'crystal' }, rations:{ label:'rations/sol', res:'rations' },
+  partcap:{ label:'assembly/sol', res:'parts' }, crystal:{ label:'crystal/sol', res:'crystal' }, rations:{ label:'food/sol', res:'rations' },
   data:{ label:'data/sol', res:'data' }, sail:{ label:'sails/sol', res:'sail' }, battery:{ label:'storage', res:'power' },
 };
 const TI_KIND = { heat:{ name:'Heat', col:'#ff9f5a', icon:'heat' }, press:{ name:'Pressure', col:'#8fd3ff', icon:'press' }, bio:{ name:'Biomass', col:'#7cf2a4', icon:'bio' } };
@@ -485,7 +514,6 @@ Object.assign(ICONS, {
   storm:'<path d="M1.5 6h9a2.2 2.2 0 1 0-2.2-2.2M1.5 9.5h12a2 2 0 1 1-2 2M1.5 13h6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>',
   cold:'<path d="M8 1v14M2 4.5l12 7M2 11.5l12-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>',
   meteor:'<circle cx="10.5" cy="10.5" r="3.5"/><path d="M1.5 1.5 7.5 7.5M4.5 1.2l4 4M1.2 4.5l4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>',
-  compute:'<rect x="4" y="4" width="8" height="8" rx="1"/><path d="M6 1.5v2M10 1.5v2M6 12.5v2M10 12.5v2M1.5 6h2M1.5 10h2M12.5 6h2M12.5 10h2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>',
 });
 
 // Structures. rules: [key, points, reach?]; key = structure id, deposit name, or "open:<biome>" (empty tile).
@@ -495,13 +523,13 @@ const TYPES = [
     gives:{ power:8, o2:6, crew:4, alloy:1 }, blurb:'Your landing craft. Supplies the first power, oxygen and crew housing, and salvages 1 alloy every sol.' },
   { id:'hab', name:'Hab Pod', start:true, need:{ power:1, o2:2 }, out:'crew', base:2, r:2, cost:{ alloy:5 },
     rules:[['hab',1],['commons',2],['arcology',1],['smelter',-1],['drill',-1],['assembler',-1],['reactor',-2]],
-    blurb:'Crew housing. Every crew member eats rations each sol. Crews like neighbours and hate industry.' },
+    blurb:'Crew housing. Every crew member eats food each sol. Crews like neighbours and hate industry.' },
   { id:'solar', name:'Solar Array', start:true, need:{}, out:'power', base:4, r:1, cost:{ alloy:4 },
     rules:[['open:salt',1],['open:ember',1],['open:obsidian',1],['open:tundra',1],['solar',-2]],
     blurb:'Works anywhere; bare flats beside it add more. Dust storms cut its output.' },
   { id:'farm', name:'Hydro Farm', start:true, need:{ power:1, crew:1 }, out:'rations', base:2, r:2, cost:{ alloy:5 },
     rules:[['flora',1,1],['open:shelf',1,1],['open:marsh',1,1],['farm',-1,1],['smelter',-2]],
-    blurb:'Grows rations. Flora or water beside it helps; smelter smoke nearby hurts. Cold snaps halve it unless a Heater is adjacent.' },
+    blurb:'Grows food. Flora or water beside it helps; smelter smoke nearby hurts. Cold snaps halve it unless a Heater is adjacent.' },
   { id:'heater', name:'Heater', start:true, need:{ power:2 }, out:'ti', tik:'heat', base:2, r:2, cost:{ alloy:5 },
     rules:[['vent',2,1],['ice',1,1],['open:obsidian',1,1],['heater',-2]],
     blurb:'Warms the atmosphere every sol it runs. Strongest right beside vents, ice and obsidian.' },
@@ -600,7 +628,7 @@ const TECHS = [
   { id:'induct',   tier:2, cost:60,  name:'Induction Smelting',       desc:'Smelters +1 capacity, built ones included.' },
   { id:'ghg',      tier:2, cost:70,  name:'Greenhouse Gases',         desc:'Heaters +2 Ti/sol, built ones included.' },
   { id:'scan',     tier:2, cost:50,  name:'Orbital Scan',             desc:'Reveals every deposit on the planet.' },
-  { id:'hydro',    tier:2, cost:55,  name:'Hydroponics',              desc:'Hydro Farms +1 rations, built ones included.' },
+  { id:'hydro',    tier:2, cost:55,  name:'Hydroponics',              desc:'Hydro Farms +1 food, built ones included.' },
   { id:'reactor',  tier:3, cost:110, parts:6,  unlocks:['reactor'],  name:'Fusion Power',            desc:'Unlocks the Fusion Reactor.' },
   { id:'arcology', tier:3, cost:110, parts:4,  unlocks:['arcology'], name:'Arcologies',              desc:'Unlocks the Arcology.' },
   { id:'spire',    tier:3, cost:100, parts:4,  unlocks:['spire'],    name:'Precursor Linguistics',   desc:'Unlocks the Signal Spire.' },
@@ -623,7 +651,7 @@ const STAGES = [
   { name:'Barren Rock',    ti:0 },
   { name:'Thin Haze',      ti:60,    perk:'Unlocks the Vapor Drill and Tidal Turbine.' },
   { name:'Blue Sky',       ti:260,   need:{ press:60 },   perk:'Opens tier 2 research.' },
-  { name:'Lichen Bloom',   ti:800,   need:{ bio:100 },    perk:'Hydro Farms +1 rations.', bonus:{ farm:1 } },
+  { name:'Lichen Bloom',   ti:800,   need:{ bio:100 },    perk:'Hydro Farms +1 food.', bonus:{ farm:1 } },
   { name:'Liquid Seas',    ti:2000,  need:{ heat:800 },   perk:'Opens tier 3 research.' },
   { name:'Moss Carpet',    ti:4200,  need:{ bio:900 },    perk:'Morale recovers twice as fast.' },
   { name:'Breathable Air', ti:8000,  need:{ press:2500 }, perk:'Opens tier 4 research. Nothing needs O₂ any more.' },
@@ -1003,12 +1031,7 @@ const Sound = (() => {
     endSol: fx(t => { [69, 74, 78].forEach((m, k) => pluck(m, t + k * .07, .045, sfxBus, false, 1.2)); }),
     alarm: fx(t => { for (let k = 0; k < 2; k++) { const o = ctx.createOscillator(), g = ctx.createGain(), t0 = t + k * .28;
       o.type = 'triangle'; o.frequency.setValueAtTime(660, t0); o.frequency.linearRampToValueAtTime(520, t0 + .22);
-      g.gain.setValueAtTime(.09, t0); g.gain.exponentialRampToValueAtTime(.001, t0 + .25); o.connect(g); g.connect(sfxBus); o.start(t0); o.stop(t0 + .27); } }),
-    tick: fx((t, hurry) => { const o = ctx.createOscillator(), g = ctx.createGain(); o.type = 'square'; o.frequency.value = hurry ? 1760 : 1180;
-      g.gain.setValueAtTime(hurry ? .07 : .045, t); g.gain.exponentialRampToValueAtTime(.001, t + .06); o.connect(g); g.connect(sfxBus); o.start(t); o.stop(t + .07); }),
-    klaxon: fx(t => { for (let k = 0; k < 3; k++) { const o = ctx.createOscillator(), g = ctx.createGain(), t0 = t + k * .32;
-      o.type = 'sawtooth'; o.frequency.setValueAtTime(440, t0); o.frequency.linearRampToValueAtTime(880, t0 + .28);
-      g.gain.setValueAtTime(.06, t0); g.gain.exponentialRampToValueAtTime(.001, t0 + .3); o.connect(g); g.connect(sfxBus); o.start(t0); o.stop(t0 + .31); } })
+      g.gain.setValueAtTime(.09, t0); g.gain.exponentialRampToValueAtTime(.001, t0 + .25); o.connect(g); g.connect(sfxBus); o.start(t0); o.stop(t0 + .27); } })
   };
 })();
 
@@ -1481,7 +1504,6 @@ const state = {
   hazard:{ next:0, type:'storm', active:null, left:0 }, swarm:0, resonance:0,
   stats:{ alloyMade:0, crystalMade:0, partsMade:0 }, found:new Set(),
   sel:-1, running:false, over:false, won:false, winShown:false, wonSol:0, proj:null,
-  compute:120, computeMax:120, overReason:'',
 };
 const D = () => DIFFS[state.diff];
 const tiTotal = () => state.ti.heat + state.ti.press + state.ti.bio;
@@ -1652,16 +1674,20 @@ function computeSol(){
   const asm = Math.max(0, Math.min(s.alloy + smelt + prod.alloy, s.crystal + prod.crystal, prod.partcap, partsCap() - s.parts));
   const sails = Math.min(prod.sail, s.parts + asm);
   const fed = s.rations + prod.rations >= cons - 1e-9;
-  let dm = fed ? d.recover * (state.stage >= 5 ? 2 : 1) : -16 * d.moraleLoss;
-  if (E.o2 < .999) dm -= 20 * (1 - E.o2) * d.moraleLoss;
-  if (E.power < .7) dm -= 3 * d.moraleLoss;
-  dm += Math.min(8, cheer);
-  return { E, housing, jobs, o2Need, o2Sup, powDem, powSup, discharge, batCap, prod, cons, smelt, asm, sails, fed, dm, effs, mf };
+  // each morale change is kept with its reason so the danger banner can show the breakdown
+  const dmParts = [fed ? ['Crew fed', d.recover * (state.stage >= 5 ? 2 : 1)] : ['Food ran out', -16 * d.moraleLoss]];
+  if (E.o2 < .999) dmParts.push(['Short of oxygen', -20 * (1 - E.o2) * d.moraleLoss]);
+  if (E.power < .7) dmParts.push(['Power below 70%', -3 * d.moraleLoss]);
+  if (cheer) dmParts.push(['Commons Plazas', Math.min(8, cheer)]);
+  const dm = dmParts.reduce((a, [, v]) => a + v, 0);
+  return { E, housing, jobs, o2Need, o2Sup, powDem, powSup, discharge, batCap, prod, cons, smelt, asm, sails, fed, dm, dmParts, effs, mf };
 }
 const project = () => { state.proj = computeSol(); return state.proj; };
 
-function endSol(){
+function endSol(force){
   if (!state.running || state.over) return;
+  // the last sol before a loss asks first, so nobody presses Space into an evacuation by accident
+  if (!force) { const dz = dangerState(project()); if (dz.lv === 3) { openConfirm(dz); return; } }
   const P = computeSol(), s = state.res, d = D();
   s.ore = Math.min(STORE.ore(), s.ore + P.prod.ore - P.smelt);
   s.alloy += P.smelt + P.prod.alloy - P.asm;
@@ -1679,14 +1705,13 @@ function endSol(){
   state.morale = Math.max(0, Math.min(100, state.morale + P.dm));
   state.zeroSols = state.morale <= 0 ? state.zeroSols + 1 : 0;
   state.sol++;
-  resetCompute();
   report(P, tiGain, idle);
   advanceHazards();
   checkStage();
   if (d.collapse && state.zeroSols >= d.collapse) { afterChange(); gameOver('collapse'); return; }
   if (d.charter && !state.won && state.sol > d.charter) { afterChange(); gameOver('charter'); return; }
-  Sound.endSol();
   afterChange();
+  if (dangerState(state.proj).lv >= 2) Sound.alarm(); else Sound.endSol();
 }
 function report(P, tiGain, idle){
   const bits = [`Sol ${state.sol - 1}: +${fmtNum(tiGain)} Ti`];
@@ -1694,7 +1719,7 @@ function report(P, tiGain, idle){
   for (const [k, v] of net) if (Math.abs(v) >= .05) bits.push(`${v > 0 ? '+' : '−'}${fmtNum(Math.abs(v))} ${RES[k].unit}`);
   feed(bits.join(' · '), '');
   if (P.E.power < .999) feed(`Brownout: structures ran at ${Math.round(P.E.power * 100)}% power.`, 'bad');
-  if (!P.fed) feed('Rations ran out. Hungry crews lose morale fast.', 'bad');
+  if (!P.fed) feed('Food ran out. Hungry crews lose morale fast.', 'bad');
   if (P.E.o2 < .999) feed(`Thin air: oxygen covered ${Math.round(P.E.o2 * 100)}% of demand.`, 'bad');
   if (P.E.staff < .999) feed(`Understaffed: ${Math.round(P.E.staff * 100)}% of jobs filled. Build housing.`, 'bad');
   if (idle) feed('Labs idle. Queue research to use their data.', 'bad');
@@ -1834,7 +1859,7 @@ function discover(j){
     if (q < .4) { const a = 12 + (Math.random() * 9 | 0); state.res.alloy += a; txt = `+${a} alloy`; }
     else if (q < .7) { const a = 6 + (Math.random() * 5 | 0); state.res.crystal += a; txt = `+${a} crystal`; }
     else if (q < .9) { const a = 3 + (Math.random() * 3 | 0); state.res.parts += a; txt = `+${a} components`; }
-    else { state.res.rations += 20; txt = '+20 rations'; }
+    else { state.res.rations += 20; txt = '+20 food'; }
     feed(`Ark debris salvaged: ${txt}`, 'find'); addPopup(j, txt, '#ffc15a');
   } else if (f === 'relic') {
     state.dataBank += 15; feed('Precursor relic catalogued: +15 data for research.', 'find'); addPopup(j, '+15 data', RES.data.col);
@@ -1846,91 +1871,12 @@ function discover(j){
   Sound.discover();
 }
 
-// ---------- compute: the turn timer. Every structure shrinks the next sol's budget ----------
-const TURN_MAX = 120, TURN_MIN = 10;
-const turnTime = () => Math.round(TURN_MIN + (TURN_MAX - TURN_MIN) * .95 ** Math.max(0, state.placed.length - 1));
-function resetCompute(){ state.computeMax = state.compute = turnTime(); }
-const computeTicking = () => state.running && !state.over && $('startModal').hidden && $('pauseModal').hidden && $('winModal').hidden;
-function tickCompute(dt){
-  if (!computeTicking()) return;
-  const before = state.compute;
-  state.compute = Math.max(0, before - dt);
-  if (state.compute <= 10 && Math.ceil(state.compute) < Math.ceil(before)) Sound.tick(state.compute <= 5);
-  if (state.compute <= 0) {
-    state.morale = Math.max(0, state.morale - 5);
-    feed('Compute exhausted. The sol ended without you, and the crew noticed (−5 morale).', 'bad');
-    Sound.alarm(); endSol(); return;
-  }
-  updateCompute();
-}
-function computeBud(){
-  return `<div class="bud compute" id="cmpBud" title="Compute: seconds left to plan this sol. Every structure you own shrinks the next sol's budget, from ${TURN_MAX}s down to ${TURN_MIN}s. At zero the sol ends on its own and morale drops 5."><div class="bl"><span style="color:${RES.compute.col}">${ico('compute')} <span class="bn">Compute</span></span><b id="cmpVal"></b></div><div class="mbar"><i id="cmpBar"></i></div><small id="cmpSub"></small></div>`;
-}
-function updateCompute(){
-  const b = $('cmpBud'); if (!b) return;
-  const c = state.compute, m = state.computeMax;
-  $('cmpVal').textContent = `${Math.ceil(c)}/${m}s`;
-  $('cmpBar').style.width = Math.min(100, c / m * 100) + '%';
-  $('cmpSub').textContent = `next sol ${turnTime()}s`;
-  b.className = 'bud compute' + (c <= 5 ? ' full' : c <= Math.max(10, m * .25) ? ' tight' : '');
-}
-
-// ---------- doom: warnings that escalate until they get in the way ----------
-const doom = { lvl:0, x:120, y:180, vx:190, vy:150, nextAlarm:0, calm:0, ptr:null, html:'' };
-function doomLevel(){
-  if (state.over) return state.overReason === 'collapse' || state.overReason === 'charter' ? 3 : 0;
-  if (!state.running || !state.proj) return 0;
-  const P = state.proj, d = D();
-  if (state.morale <= 0 || state.morale + P.dm <= 0 || (d.charter && !state.won && d.charter - state.sol < 10)) return 2;
-  if (state.morale < 25 || !P.fed || P.E.o2 < .999 || state.compute <= 10) return 1;
-  return 0;
-}
-function doomWhy(){
-  const d = D();
-  if (state.morale <= 0 && d.collapse) { const n = d.collapse - state.zeroSols; return `Morale 0 · evacuation in ${n} sol${n === 1 ? '' : 's'}`; }
-  if (state.morale <= 0) return 'Morale 0 · nobody is happy';
-  if (state.morale + state.proj.dm <= 0) return 'Morale hits zero next sol';
-  return `Charter review in ${d.charter - state.sol + 1} sols`;
-}
-function dodgeDoom(){
-  const b = $('doomBox');
-  doom.x = Math.random() * Math.max(0, innerWidth - b.offsetWidth); doom.y = Math.random() * Math.max(0, innerHeight - b.offsetHeight);
-  doom.calm = performance.now() + 1500; Sound.error();
-}
-function tickDoom(now, dt){
-  const lvl = doomLevel(), app = $('app'), box = $('doomBox');
-  if (lvl !== doom.lvl) {
-    app.classList.remove('doom1', 'doom2', 'doom3'); if (lvl) app.classList.add('doom' + lvl);
-    if (lvl > doom.lvl) doom.nextAlarm = 0;
-    if (lvl >= 2 && doom.lvl < 2) { box.hidden = false; dodgeDoom(); }
-    doom.lvl = lvl;
-  }
-  if (lvl && now >= doom.nextAlarm) { (lvl >= 2 ? Sound.klaxon : Sound.alarm)(); doom.nextAlarm = now + [0, 6000, 2400, 3500][lvl]; }
-  box.hidden = lvl < 2;
-  if (lvl < 2) return;
-  const html = lvl === 3 ? `You are dead<small>${state.overReason === 'charter' ? 'The charter board says hi.' : 'The crew left. You can stop clicking.'}</small>` : `You are almost dead<small>${doomWhy()}</small>`;
-  if (html !== doom.html) box.innerHTML = doom.html = html;
-  const bw = box.offsetWidth, bh = box.offsetHeight, speed = lvl === 3 ? 320 : 240;
-  if (doom.ptr && now > doom.calm) { // drifts toward the cursor, so it is always in the way
-    const dx = doom.ptr.x - doom.x - bw / 2, dy = doom.ptr.y - doom.y - bh / 2, dist = Math.hypot(dx, dy) || 1;
-    doom.vx += dx / dist * 150 * dt; doom.vy += dy / dist * 150 * dt;
-  }
-  const sp = Math.hypot(doom.vx, doom.vy) || 1; doom.vx *= speed / sp; doom.vy *= speed / sp;
-  doom.x += doom.vx * dt; doom.y += doom.vy * dt;
-  if (doom.x < 0 || doom.x > innerWidth - bw) { doom.vx = -doom.vx; doom.x = Math.max(0, Math.min(innerWidth - bw, doom.x)); }
-  if (doom.y < 0 || doom.y > innerHeight - bh) { doom.vy = -doom.vy; doom.y = Math.max(0, Math.min(innerHeight - bh, doom.y)); }
-  box.style.transform = `translate(${doom.x}px,${doom.y}px) rotate(${Math.sin(now / 180) * 4}deg)`;
-  box.classList.toggle('alt', (now / 160 | 0) % 2 === 1);
-}
-addEventListener('pointermove', e => { doom.ptr = { x: e.clientX, y: e.clientY }; });
-$('doomBox').addEventListener('pointerdown', e => { e.stopPropagation(); dodgeDoom(); });
-
 // ---------- end, records, saves ----------
 function bestKey(){ return 'nova-best-sols-' + state.diff; }
 function getBest(diff){ try { return +(localStorage.getItem('nova-best-sols-' + diff) || 0); } catch (e) { return 0; } }
 function recordBest(){ try { const b = getBest(state.diff); if (!b || state.wonSol < b) localStorage.setItem(bestKey(), state.wonSol); } catch (e) {} }
 function gameOver(reason){
-  state.over = true; state.running = false; state.sel = -1; state.overReason = reason;
+  state.over = true; state.running = false; state.sel = -1;
   clearSave(); showOver(reason);
 }
 function afterChange(){
@@ -1945,7 +1891,7 @@ function serialize(){
     research:{ active:state.research.active, progress:state.research.progress, queue:[...state.research.queue] },
     dataBank:state.dataBank, morale:state.morale, zeroSols:state.zeroSols, charge:state.charge, hazard:{ ...state.hazard },
     swarm:state.swarm, resonance:state.resonance, stats:{ ...state.stats }, found:[...state.found],
-    won:state.won, winShown:state.winShown, wonSol:state.wonSol, compute:state.compute, computeMax:state.computeMax, cam:{ x:cam.x, y:cam.y, z:cam.z } };
+    won:state.won, winShown:state.winShown, wonSol:state.wonSol, cam:{ x:cam.x, y:cam.y, z:cam.z } };
 }
 function save(){ if (!state.running || state.over) return; try { localStorage.setItem(SAVE_KEY, JSON.stringify(serialize())); } catch (e) {} }
 function loadSave(){ try { const s = JSON.parse(localStorage.getItem(SAVE_KEY) || 'null'); return s && s.v === 4 ? s : null; } catch (e) { return null; } }
@@ -1961,7 +1907,7 @@ function newGame(seed, snap, diff){
     placed:[], counts:new Array(TYPES.length).fill(0), unlocked:new Set(TYPES.map((ty, t) => ty.start ? t : -1).filter(t => t >= 0)),
     fresh:new Set(), goals:new Set(), tech:{}, mirrors:0, research:{ active:null, progress:0, queue:[] }, dataBank:0,
     morale:75, zeroSols:0, charge:0, hazard:{ next:0, type:'storm', active:null, left:0 }, swarm:0, resonance:0,
-    stats:{ alloyMade:0, crystalMade:0, partsMade:0 }, found:new Set(), sel:-1, over:false, won:false, winShown:false, wonSol:0, overReason:'' });
+    stats:{ alloyMade:0, crystalMade:0, partsMade:0 }, found:new Set(), sel:-1, over:false, won:false, winShown:false, wonSol:0 });
   world.known.fill(0); world.life.fill(0);
   if (snap) {
     for (const [i, t, o, dmg] of snap.placed) { world.bld[i] = t; state.placed.push({ i, t, o, dmg: !!dmg }); }
@@ -1977,8 +1923,6 @@ function newGame(seed, snap, diff){
     world.bld[home] = T.lander; state.placed.push({ i: home, t: T.lander, o: 0, dmg: false }); state.counts[T.lander] = 1;
     scheduleHazard(true);
   }
-  resetCompute();
-  if (snap && snap.compute > 0) { state.compute = snap.compute; state.computeMax = snap.computeMax || state.computeMax; }
   rebuildZone(); rebuildLife(); recolor(); buildMiniBase();
   popups = []; hover = -1;
   cam.z = 1; centerOn(...world.home);
@@ -1990,7 +1934,7 @@ function newGame(seed, snap, diff){
 
 // ================= UI (v4) =================
 let hover = -1, mouse = null, popups = [], lastTap = -1, launchT = -1e9, prevStock = {}, meteors = [];
-const MODALS = ['startModal', 'researchModal', 'pauseModal', 'overModal', 'winModal'];
+const MODALS = ['startModal', 'researchModal', 'pauseModal', 'overModal', 'winModal', 'confirmModal'];
 const anyModal = () => MODALS.some(id => !$(id).hidden);
 const fmtNum = v => { const r = Math.round(v * 10) / 10; return Math.abs(r) >= 100 ? Math.round(r).toLocaleString('en-US') : String(r); };
 const fmtInt = v => Math.floor(v + 1e-6).toLocaleString('en-US');
@@ -2045,9 +1989,136 @@ function positionFeed(){
   $('feed').style.top = (innerWidth <= 760 ? Math.round(gb) : top) + 10 + 'px';
 }
 
-function bud(k, used, cap, title, sub){
-  const frac = cap > 0 ? used / cap : (used > 0 ? 2 : 0), cls = used > cap + 1e-9 ? 'full' : frac > .85 ? 'tight' : '';
-  return `<div class="bud ${cls}" title="${title}"><div class="bl"><span style="color:${RES[k].col}">${ico(RES[k].icon)} <span class="bn">${RES[k].name}</span></span><b>${fmtNum(used)}/${fmtNum(cap)}</b></div><div class="mbar"><i style="width:${Math.min(100, frac * 100)}%"></i></div>${sub ? `<small>${sub}</small>` : ''}</div>`;
+// ---------- resource bars ----------
+const plural = (n, w) => `${n} ${w}${n === 1 ? '' : 's'}`;
+const netSpan = n => Math.abs(n) < .05 ? '' : ` <span class="${n < 0 ? 'n' : 'p'}">${fmtNet(n)}</span>`;
+const fixBtn = id => T[id] != null && isUnlocked(T[id]) ? `<button class="fixb" data-sel="${id}">Build ${TYPES[T[id]].name}</button>` : '';
+// a tight row nears its limit; a bad row is already short
+const budCls = (used, cap) => used > cap + 1e-9 ? 'bad' : cap > 0 && used / cap > .85 ? 'tight' : '';
+function resLine(k, { val, frac, cls = '', note = '', ticks = [], bump = false }){
+  const r = RES[k];
+  return `<div class="rl ${cls}${bump ? ' bump' : ''}" data-res="${k}" tabindex="0" aria-label="${r.name}"><span style="color:${r.col}">${ico(r.icon)}</span><span class="rn" style="color:${r.col}">${r.name}</span>`
+    + `<div class="trk"><i style="width:${Math.max(0, Math.min(100, frac * 100))}%;background:${r.col}"></i>${ticks.map(f => `<u style="left:${f * 100}%"></u>`).join('')}</div>`
+    + `<span class="rv">${val}</span>${note ? `<div class="rnote">${note}</div>` : ''}</div>`;
+}
+// how many more sols the crew will be fed: 0 means hungry this sol, Infinity means food is not shrinking
+function foodSols(P){
+  const net = P.prod.rations - P.cons;
+  return !P.fed ? 0 : net >= -1e-9 ? Infinity : Math.floor(state.res.rations / -net + 1e-9);
+}
+function renderGroups(P){
+  const s = state.res, d = D(), sel = state.sel;
+  const nets = { ore: P.prod.ore - P.smelt, alloy: P.smelt + P.prod.alloy - P.asm, crystal: P.prod.crystal - P.asm, parts: P.asm - P.sails, rations: P.prod.rations - P.cons };
+  const bump = k => prevStock[k] != null && Math.floor(s[k]) > Math.floor(prevStock[k]);
+  const stock = (k, cap) => `<b>${fmtInt(s[k])}</b>${cap ? `<small>/${fmtInt(cap)}</small>` : ''}${netSpan(nets[k])}`;
+  // uncapped stockpiles scale to the priciest structure you can build, with a tick at every tray price
+  const costs = trayTypes().map(costOf), top = k => Math.max(1, ...costs.map(c => c[k]));
+
+  // keep the crew alive
+  const fs = foodSols(P), fcap = STORE.rations();
+  let foodNote = '';
+  if (fs === 0) foodNote = `Out of food: ${fmtNum(P.cons - P.prod.rations - state.res.rations)} short this sol. ${fixBtn('farm')}`;
+  else if (fs <= 3) foodNote = `Runs out in ${plural(fs, 'sol')}. ${fixBtn('farm')}`;
+  else if (fs < Infinity) foodNote = `Lasts ${plural(fs, 'sol')}`;
+  let alive = resLine('rations', { val: stock('rations', fcap), frac: s.rations / fcap, cls: fs <= 1 ? 'bad' : fs <= 3 ? 'tight' : '', note: foodNote, bump: bump('rations') });
+  alive += state.stage >= 6
+    ? resLine('o2', { val: '<b>free</b>', frac: 0, note: 'Breathable Air: nothing needs it' })
+    : resLine('o2', { val: `<b>${fmtNum(P.o2Need)}</b><small>/${fmtNum(P.o2Sup)}</small>`, frac: P.o2Sup > 0 ? P.o2Need / P.o2Sup : P.o2Need > 0 ? 1 : 0, cls: budCls(P.o2Need, P.o2Sup),
+      note: P.E.o2 < .999 ? `Short by ${fmtNum(P.o2Need - P.o2Sup)}. ${fixBtn('electrolyzer') || fixBtn('algae')}` : '' });
+  const m = Math.round(state.morale);
+  alive += resLine('morale', { val: `<b>${m}</b>${netSpan(P.dm)}`, frac: m / 100, cls: m < 25 ? 'bad' : m < 50 ? 'tight' : '',
+    note: m < 25 && d.collapse ? `At 0 for ${plural(d.collapse, 'sol')}, the crew evacuates.` : m < 50 ? 'Below 50, crews work slower.' : '' });
+
+  // build things
+  const selC = sel >= 0 ? costOf(sel) : null, afford = selC && selC.alloy ? Math.floor(s.alloy / selC.alloy + 1e-9) : 0;
+  const ta = top('alloy');
+  let build = resLine('alloy', { val: stock('alloy'), frac: s.alloy / ta, ticks: [...new Set(costs.map(c => c.alloy))].filter(c => c > 0 && c < ta).map(c => c / ta),
+    note: selC && selC.alloy ? `Pays for ${afford} more ${TYPES[sel].name}${afford === 1 ? '' : 's'}` : '', bump: bump('alloy') });
+  build += resLine('crystal', { val: stock('crystal'), frac: s.crystal / top('crystal'), bump: bump('crystal') });
+  build += resLine('parts', { val: stock('parts', partsCap()), frac: s.parts / partsCap(), cls: s.parts >= partsCap() ? 'tight' : '',
+    note: s.parts >= partsCap() && P.prod.partcap ? 'Storage full: Assemblers pause' : '', bump: bump('parts') });
+  build += resLine('ore', { val: stock('ore', STORE.ore()), frac: s.ore / STORE.ore(), bump: bump('ore') });
+
+  // run the colony
+  const pow = P.powSup + P.discharge;
+  let run = resLine('power', { val: `<b>${fmtNum(P.powDem)}</b><small>/${fmtNum(pow)}</small>`, frac: pow > 0 ? P.powDem / pow : P.powDem > 0 ? 1 : 0, cls: P.E.power < .999 ? 'bad' : budCls(P.powDem, pow),
+    note: P.E.power < .999 ? `Brownout: ${Math.round(P.E.power * 100)}% output. ${fixBtn('solar')}` : P.batCap ? `Battery ${fmtInt(state.charge)}/${fmtInt(P.batCap)}` : '' });
+  run += resLine('crew', { val: `<b>${fmtNum(P.jobs)}</b><small>/${fmtNum(P.housing)}</small>`, frac: P.housing > 0 ? P.jobs / P.housing : P.jobs > 0 ? 1 : 0, cls: P.jobs > P.housing + 1e-9 ? 'bad' : P.jobs >= P.housing && P.jobs ? 'tight' : '',
+    note: P.jobs > P.housing + 1e-9 ? `${fmtNum(P.jobs - P.housing)} jobs empty. ${fixBtn('hab')}` : P.jobs >= P.housing && P.jobs ? 'No spare crew' : '' });
+
+  $('groups').innerHTML = `<div class="grp"><h4>Keep the crew alive</h4>${alive}</div><div class="grp"><h4>Build things</h4>${build}</div><div class="grp"><h4>Run the colony</h4>${run}</div>`;
+  prevStock = { ...s };
+}
+
+// ---------- loss warnings: 1 watch, 2 danger, 3 the next End Sol loses ----------
+function dangerState(P){
+  const d = D(), out = [], m = state.morale, nextM = Math.max(0, Math.min(100, m + P.dm));
+  const pips = (n, on) => `<span class="pips">${Array.from({ length: n }, (_, k) => `<i class="${k < on ? 'on' : ''}"></i>`).join('')}</span><span class="dim">${on} of ${n}</span>`;
+  const parts = () => `<span class="parts">${P.dmParts.map(([t, v]) => `<span class="${v < 0 ? 'n' : 'p'}">${fmtNet(v)} ${t}</span>`).join('')}</span>`;
+  const fixes = () => [!P.fed && fixBtn('farm'), P.E.o2 < .999 && (fixBtn('electrolyzer') || fixBtn('algae')), P.E.power < .7 && fixBtn('solar'), fixBtn('commons')].filter(Boolean).join('');
+  if (d.collapse && nextM <= 0) {
+    const left = d.collapse - state.zeroSols;
+    out.push({ lv: left <= 1 ? 3 : 2, big: left, unit: left === 1 ? 'sol left' : 'sols left', title: left <= 1 ? 'Last sol before evacuation' : 'Crew will evacuate',
+      why: state.zeroSols ? `Morale has been at 0 for ${plural(state.zeroSols, 'sol')}. At ${d.collapse}, the colony is lost.` : `Morale hits 0 this sol. After ${plural(d.collapse, 'sol')} at 0, the crew evacuates.`,
+      fix: `${pips(d.collapse, state.zeroSols)}${parts()}${fixes()}`, end: 'colony will be evacuated',
+      confirm: 'Morale will still be 0 after this sol. The crew evacuates and the game ends.' });
+  } else if (m < 40 && P.dm < 0) {
+    out.push({ lv: 1, big: Math.round(m), unit: 'morale', title: nextM <= 0 ? 'Morale hits 0' : 'Morale is falling',
+      why: `${fmtNet(P.dm)} next sol. ${d.collapse ? `At 0 for ${plural(d.collapse, 'sol')}, the crew evacuates.` : 'Below 50, crews work slower.'}`, fix: `${parts()}${fixes()}` });
+  }
+  const fs = foodSols(P);
+  if (fs === 0) out.push({ lv: 2, big: 0, unit: 'food', title: 'Food has run out', why: `Crew eat ${fmtNum(P.cons)} a sol and farms make ${fmtNum(P.prod.rations)}. Every hungry sol costs ${fmtNum(16 * d.moraleLoss)} morale.`, fix: fixBtn('farm') });
+  else if (fs <= 3) out.push({ lv: 1, big: fs, unit: fs === 1 ? 'sol' : 'sols', title: `Food runs out in ${plural(fs, 'sol')}`, why: `Crew eat ${fmtNum(P.cons)} a sol and farms make ${fmtNum(P.prod.rations)}.`, fix: `${fixBtn('farm')} <span class="dim">or build fewer Hab Pods</span>` });
+  if (d.charter && !state.won) {
+    const goal = STAGES[STAGES.length - 1].ti, ti = tiTotal(), rate = P.prod.ti.heat + P.prod.ti.press + P.prod.ti.bio;
+    const left = d.charter - state.sol + 1, need = Math.ceil((goal - ti) / Math.max(rate, 1e-9));
+    if (left <= 1 && ti + rate < goal) out.push({ lv: 3, big: 1, unit: 'sol left', title: 'Charter review this sol', why: `Living World needs ${fmtInt(goal - ti)} more Ti. The charter is withdrawn when this sol ends.`, fix: '', end: 'charter will be withdrawn',
+      confirm: `You are ${fmtInt(goal - ti - rate)} Ti short of Living World. Ending this sol ends the colony.` });
+    else if (need > left && left <= 10) out.push({ lv: 2, big: left, unit: 'sols left', title: `Charter review in ${plural(left, 'sol')}`, why: `At +${fmtNum(rate)} Ti a sol, Living World is ${rate > 0 ? `about ${plural(need, 'sol')} away` : 'out of reach'}.`, fix: '' });
+    else if (need > left && state.sol >= d.charter / 2) out.push({ lv: 1, big: rate > 0 ? need - left : '—', unit: 'sols behind', title: 'Behind charter pace', why: rate > 0 ? `At +${fmtNum(rate)} Ti a sol, Living World is around sol ${state.sol + need - 1}. The charter review is sol ${d.charter}.` : 'No Ti income yet.', fix: '' });
+  }
+  return out.reduce((a, b) => b.lv > a.lv ? b : a, { lv: 0 });
+}
+function renderDanger(dz){
+  const el = $('danger');
+  el.hidden = !dz.lv; $('vignette').hidden = dz.lv < 3;
+  if (!dz.lv) return;
+  el.className = 'lv' + dz.lv;
+  el.innerHTML = `<div class="big">${dz.big}<small>${dz.unit}</small></div><h3>${dz.title}</h3><div class="why">${dz.why}</div>${dz.fix ? `<div class="fix">${dz.fix}</div>` : ''}`;
+}
+function openConfirm(dz){
+  $('confirmText').textContent = dz.confirm;
+  $('confirmModal').hidden = false; $('tip').hidden = true; $('resCard').hidden = true;
+  $('confirmBack').focus();
+}
+
+// ---------- resource hover cards ----------
+const RES_INFO = {
+  rations: () => ({ kind:'Stockpile', what:`What your crew eats. Each housed crew member eats ${D().ration} a sol.`, made:'Hydro Farms, more next to plants, Silt Shelf and Fungal Marsh', used:'Every crew member housed in a Hab Pod, Commons or Arcology',
+    out:`Morale −${fmtNum(16 * D().moraleLoss)} every sol the crew goes hungry`, store:`${STORE.rations()} · +25 per Hydro Farm. Extra is lost.` }),
+  o2: () => ({ kind:'Per sol', what:'Air for crew and some buildings. It is not stored, so supply has to cover use every sol.', made:'Colony Lander, Electrolyzers, Algae Vats', used:'Hab Pods, Smelters, Assemblers, Labs and other crewed buildings',
+    out:'Crewed buildings slow down and morale drops', store:'None. Free from stage 6, Breathable Air.' }),
+  morale: () => ({ kind:'0 – 100', what:'How the crew feels. At 50 or more, crews work at full speed.', made:`Feeding everyone (+${D().recover} a sol), Commons Plazas (+2 each)`, used:'Lost to hunger, thin air and power below 70%',
+    out: D().collapse ? `At 0 for ${plural(D().collapse, 'sol')} in a row, the crew evacuates and the colony is lost` : 'Crewed buildings slow down', store:'' }),
+  alloy: () => ({ kind:'Stockpile', what:'The main building material. Almost every structure costs alloy.', made:'Smelters (turn ore into alloy), the Colony Lander (+1), Skyports', used:'New buildings, repairs and Assemblers',
+    out:'You cannot build', store:'No limit. The ticks on the bar mark what each building in the tray costs.' }),
+  crystal: () => ({ kind:'Stockpile', what:'A rarer building material for advanced structures.', made:'Crystal Drills on crystal veins', used:'Advanced buildings and Assemblers', out:'Advanced buildings stay locked to you', store:'No limit' }),
+  parts: () => ({ kind:'Stockpile', what:'Machine parts made from alloy and crystal.', made:'Assemblers (1 alloy + 1 crystal each)', used:'Advanced buildings, some research, Sail Launchers', out:'Advanced buildings stay locked to you',
+    store:`${partsCap()} · +15 per Assembler. Assemblers pause when it is full.` }),
+  ore: () => ({ kind:'Stockpile', what:'Raw metal dug from ferrite nodes.', made:'Ferrite Drills on ferrite nodes', used:'Smelters turn it into alloy', out:'Smelters sit idle', store:`${STORE.ore()} · +20 per Ferrite Drill. Extra is lost.` }),
+  power: () => ({ kind:'Per sol', what:'Electricity. It is not stored unless you build Battery Banks.', made:'Colony Lander, Solar Arrays, Tidal Turbines, Geothermal and Fusion', used:'Most buildings',
+    out:'Buildings that use power slow down. Below 70%, morale drops.', store: state.proj.batCap ? `${fmtInt(state.charge)}/${fmtInt(state.proj.batCap)} in batteries` : 'None without Battery Banks' }),
+  crew: () => ({ kind:'Per sol', what:'People to staff buildings. The first number is jobs, the second is crew you have housing for.', made:'Hab Pods, Commons Plazas and Arcologies add housing', used:'Farms, drills, Smelters, Labs and other crewed buildings',
+    out:'Buildings without enough crew slow down', store:'' }),
+};
+function showResCard(row){
+  const k = row.dataset.res, r = RES[k], f = RES_INFO[k](), card = $('resCard');
+  const rows = [['What', f.what], ['Made by', f.made], ['Used by', f.used], ['If short', f.out], ['Storage', f.store]].filter(([, v]) => v);
+  card.innerHTML = `<div class="hd"><span style="color:${r.col};font-size:18px;margin:0;border:0;padding:0">${ico(r.icon)}</span><b style="color:${r.col}">${r.name}</b><span>${f.kind.toUpperCase()}</span></div><dl>${rows.map(([t, v]) => `<dt>${t}</dt><dd>${v}</dd>`).join('')}</dl>`;
+  card.hidden = false;
+  const b = row.getBoundingClientRect();
+  card.style.left = Math.max(8, Math.min(b.left, innerWidth - card.offsetWidth - 8)) + 'px';
+  card.style.top = Math.min(b.bottom + 6, innerHeight - card.offsetHeight - 8) + 'px';
 }
 function renderHUD(){
   const P = state.proj, ti = tiTotal(), st = state.stage, cur = STAGES[st].ti, nxt = STAGES[st + 1];
@@ -2065,36 +2136,18 @@ function renderHUD(){
   } else next = `Living World reached on sol <em>${state.wonSol}</em>`;
   $('tiNext').innerHTML = next;
   $('tiParts').innerHTML = Object.entries(TI_KIND).map(([k, v]) => `<span style="color:${v.col}" title="${v.name}: ${fmtInt(state.ti[k])} total, +${fmtNum(P.prod.ti[k])} per sol">${ico(v.icon)}${fmtInt(state.ti[k])}<small>+${fmtNum(P.prod.ti[k])}</small></span>`).join('');
-  const pow = P.powSup + P.discharge;
-  let h = computeBud() + bud('power', P.powDem, pow, `Power: ${fmtNum(P.powDem)} demand, ${fmtNum(pow)} supply`, P.batCap ? `stored ${fmtInt(state.charge)}/${fmtInt(P.batCap)}` : '');
-  h += state.stage >= 6
-    ? `<div class="bud" title="Breathable Air: nothing needs oxygen"><div class="bl"><span style="color:${RES.o2.col}">${ico('o2')} <span class="bn">Oxygen</span></span><b>free</b></div><div class="mbar"><i style="width:0"></i></div></div>`
-    : bud('o2', P.o2Need, P.o2Sup, `Oxygen: ${fmtNum(P.o2Need)} demand, ${fmtNum(P.o2Sup)} supply`);
-  h += bud('crew', P.jobs, P.housing, `Crew: ${fmtNum(P.jobs)} jobs for ${fmtNum(P.housing)} housed crew`);
-  const m = state.morale, mcls = m < 25 ? 'full' : m < 50 ? 'tight' : '';
-  h += `<div class="bud morale ${mcls}" title="Morale ${Math.round(m)} (${fmtNet(P.dm)} next sol). Below 50, crewed structures slow down."><div class="bl"><span style="color:${RES.morale.col}">${ico('morale')} <span class="bn">Morale</span></span><b>${Math.round(m)}</b></div><div class="mbar"><i style="width:${m}%"></i></div><small>${fmtNet(P.dm)} next sol</small></div>`;
-  $('buds').innerHTML = h; updateCompute();
-  const s = state.res, nets = { ore: P.prod.ore - P.smelt, alloy: P.smelt + P.prod.alloy - P.asm, crystal: P.prod.crystal - P.asm, parts: P.asm - P.sails, rations: P.prod.rations - P.cons };
-  $('stock').innerHTML = ['ore', 'alloy', 'crystal', 'parts', 'rations'].map(k => {
-    const v = s[k], n = nets[k], bump = prevStock[k] != null && Math.floor(v) > Math.floor(prevStock[k]) ? ' bump' : '', low = k === 'rations' && v + n < P.cons ? ' low' : '';
-    const capV = STORE[k] ? STORE[k]() : 0, cap = capV && v >= capV * .8 ? `<span>/${capV}</span>` : '';
-    const tip = k === 'parts' ? `Components: ${fmtNet(n)} per sol. Storage holds ${capV}; assemblers pause when it is full.`
-      : capV ? `${RES[k].name}: ${fmtNet(n)} per sol. Storage holds ${capV}; the rest is lost.` : `${RES[k].name}: ${fmtNet(n)} per sol`;
-    return `<div class="stk${bump}${low}" title="${tip}" style="color:${RES[k].col}">${ico(RES[k].icon)}<b>${fmtInt(v)}</b>${cap}<span>${fmtNet(n)}</span></div>`;
-  }).join('');
-  prevStock = { ...s };
+  renderGroups(P);
+  // food, oxygen, power and crew shortages show on their bars; the chips keep hazards and damage
   const al = [], hz = state.hazard, eta = hazardEta();
   if (hz.active) al.push(`<span class="al bad">${ico(HAZ[hz.active].icon)} ${HAZ[hz.active].name} · ${hz.left} sol${hz.left > 1 ? 's' : ''} left</span>`);
   else if (eta > 0 && eta <= D().warn) al.push(`<span class="al warn">${ico(HAZ[hz.type].icon)} ${HAZ[hz.type].name} in ${eta} sol${eta > 1 ? 's' : ''}</span>`);
-  if (P.E.power < .999) al.push(`<span class="al bad">${ico('power')} Brownout ${Math.round(P.E.power * 100)}%</span>`);
-  if (!P.fed) al.push(`<span class="al bad">${ico('rations')} Rations run out</span>`);
-  if (P.E.o2 < .999) al.push(`<span class="al bad">${ico('o2')} Oxygen ${Math.round(P.E.o2 * 100)}%</span>`);
-  if (P.E.staff < .999) al.push(`<span class="al bad">${ico('crew')} Understaffed</span>`);
   const dmg = state.placed.filter(p => p.dmg).length;
   if (dmg) al.push(`<span class="al bad">${ico('meteor')} ${dmg} damaged · click to repair</span>`);
   $('alerts').innerHTML = al.join(''); $('alerts').hidden = !al.length;
-  const d = D();
-  $('endSol').innerHTML = `${ico('next')}<span>End sol ${state.sol}${d.charter && !state.won ? `<small>charter review at sol ${d.charter}</small>` : ''}</span><kbd>Space</kbd>`;
+  const d = D(), dz = state.over ? { lv: 0 } : dangerState(P);
+  renderDanger(dz);
+  $('endSol').classList.toggle('danger', dz.lv === 3);
+  $('endSol').innerHTML = `${ico('next')}<span>End sol ${state.sol}${dz.lv === 3 ? `<small>${dz.end}</small>` : d.charter && !state.won ? `<small>charter review at sol ${d.charter}</small>` : ''}</span><kbd>Space</kbd>`;
   const R = state.research, idle = isUnlocked(T.lab) && !R.active && !R.queue.length && TECHS.some(techAvailable);
   $('researchBtn').innerHTML = ico('flask') + (idle ? '<span class="badge"></span>' : '');
   $('musicBtn').innerHTML = ico(Sound.prefs.on ? 'music' : 'mute');
@@ -2133,7 +2186,7 @@ function renderInfo(){
   if (ty.out) rows = `<li><span>base ${outLabel(ty)}</span><b>${base}${ty.purity ? ' + purity' : ''}</b></li>` + ty.rules.map(([k, v, reach]) => `<li><span>per ${KEY_LABEL(k)}${reach ? (reach === 1 ? ' (adjacent)' : ` (within ${reach})`) : ''}</span><b class="${v > 0 ? 'p' : 'n'}">${v > 0 ? '+' : ''}${v}</b></li>`).join('');
   else if (ty.shield) rows = `<li><span>meteor cover</span><b>${ty.shield} hexes</b></li>`;
   else rows = `<li><span>build zone reach</span><b>${linkOf(ty)} hexes</b></li><li><span>survey reach</span><b>${surveyOf(ty)} hexes</b></li>`;
-  const upkeep = ty.out === 'crew' ? `<p>Each crew member housed eats ${D().ration} rations per sol.</p>` : '';
+  const upkeep = ty.out === 'crew' ? `<p>Each crew member housed eats ${D().ration} food per sol.</p>` : '';
   info.innerHTML = `<h3>${ty.name}</h3><div class="tags"><span>${site}</span>${ty.r ? `<span>radius ${ty.r}</span>` : ''}<span>links ${linkOf(ty)}</span></div>
     <p>${ty.blurb}</p>${upkeep}<div class="sect">Draws</div><div class="needs">${needs}</div>
     <div class="sect">Yield</div><ul>${rows}</ul>
@@ -2245,7 +2298,7 @@ function projLines(ty, ev){
   if (pw || ty.out === 'power') L.push(budLine('power', P.powDem + pw, P.powSup + P.discharge + (ty.out === 'power' ? ev.out : 0)));
   if ((o2 || ty.out === 'o2') && state.stage < 6) L.push(budLine('o2', P.o2Need + o2, P.o2Sup + (ty.out === 'o2' ? ev.out : 0)));
   if (cr || ty.out === 'crew') L.push(budLine('crew', P.jobs + cr, P.housing + (ty.out === 'crew' ? ev.out : 0)));
-  if (ty.out === 'crew') L.push(`<span class="dim">${ico('rations')} eats ${fmtNum(ev.out * D().ration)} rations/sol</span>`);
+  if (ty.out === 'crew') L.push(`<span class="dim">${ico('rations')} eats ${fmtNum(ev.out * D().ration)} food/sol</span>`);
   return L.length ? '<br>After building: ' + L.join(' · ') : '';
 }
 function tipHTML(i){
@@ -2448,6 +2501,7 @@ addEventListener('keydown', e => {
   if (e.target && e.target.tagName === 'INPUT') return;
   const k = e.key.toLowerCase();
   if (k === 'escape') {
+    if (!$('confirmModal').hidden) { $('confirmModal').hidden = true; return; }
     if (!$('researchModal').hidden) { $('researchModal').hidden = true; return; }
     if (!$('helpPanel').hidden) { toggleHelp(false); return; }
     if (!$('pauseModal').hidden) { resume(); return; }
@@ -2528,6 +2582,14 @@ $('helpBtn').onclick = () => toggleHelp();
 $('helpClose').onclick = () => toggleHelp(false);
 $('pauseBtn').onclick = pause;
 $('endSol').onclick = () => { Sound.start(); endSol(); };
+$('confirmBack').onclick = () => { $('confirmModal').hidden = true; };
+$('confirmEnd').onclick = () => { $('confirmModal').hidden = true; endSol(true); };
+// fix buttons on the bars and the danger banner pick the building straight away
+$('top').addEventListener('click', e => { const b = e.target.closest('.fixb'); if (b && state.running) { Sound.start(); select(T[b.dataset.sel]); } });
+$('groups').addEventListener('mouseover', e => { const r = e.target.closest('.rl'); if (r) showResCard(r); });
+$('groups').addEventListener('focusin', e => { const r = e.target.closest('.rl'); if (r) showResCard(r); });
+$('groups').addEventListener('mouseleave', () => { $('resCard').hidden = true; });
+$('groups').addEventListener('focusout', () => { $('resCard').hidden = true; });
 $('rsClose').onclick = () => $('researchModal').hidden = true;
 $('resumeBtn').onclick = resume;
 $('restartBtn').onclick = () => startNew(state.seed, state.diff);
@@ -2546,8 +2608,7 @@ sv.oninput = () => { Sound.setSfx(+sv.value); Sound.start(); Sound.select(); };
 // ---------- main loop & boot ----------
 let lastT = performance.now();
 function frame(now){
-  const raw = Math.max(0, Math.min(1, (now - lastT) / 1000)), dt = Math.min(.05, raw); lastT = now;
-  tickCompute(raw); tickDoom(now, dt);
+  const dt = Math.min(.05, (now - lastT) / 1000); lastT = now;
   let mx = 0, my = 0;
   if (keys.has('a') || keys.has('arrowleft')) mx--; if (keys.has('d') || keys.has('arrowright')) mx++;
   if (keys.has('w') || keys.has('arrowup')) my--; if (keys.has('s') || keys.has('arrowdown')) my++;

@@ -73,7 +73,17 @@ The menu has separate **Music** and **Effects** volume sliders, plus **Restart**
 ## The screen
 
 - **Terraformation box (top left):** total Ti, Ti per sol, the current stage, progress to the next stage, an estimate of sols remaining, any component floors still needed, and running totals for Heat, Pressure and Biomass.
-- **Economy panel (top):** meters for Power, Oxygen, Crew (jobs vs housing) and Morale. Below them are stockpiles for ore, alloy, crystal, components and rations, each with its net change per sol. Alert chips cover brownouts, low rations, thin air, understaffing, damaged structures, and active or incoming hazards.
+- **Resource bars (top):** every resource has a named bar, sorted into three labeled groups:
+
+  | Group | Bars | What the bar shows |
+  |---|---|---|
+  | **Keep the crew alive** | Food, Oxygen, Morale | Food: stock vs storage, net per sol, and "Lasts N sols". Oxygen: use vs supply. Morale: 0-100 and the change next sol. |
+  | **Build things** | Alloy, Crystal, Components, Ore | Stock, storage where there is a cap, and net per sol. Alloy and Crystal have no cap, so their bars scale to the priciest structure in the tray. Ticks on the Alloy bar mark each tray card's price. While a structure is selected, Alloy says how many more you can pay for. |
+  | **Run the colony** | Power, Crew | Use vs supply (power) and jobs vs housing (crew). Battery charge appears under Power. |
+
+  A bar turns amber when it is tight and red when it is short. A row with a problem gets a one-line note and, where it helps, a **Build ...** button that selects the fix (Hydro Farm, Electrolyzer or Algae Vat, Solar Array, Hab Pod). Below the bars, chips cover active or incoming hazards and damaged structures.
+- **Resource hover cards:** hover or focus any bar for a card with what the resource is, what makes it, what uses it, what happens if it runs short, and its storage.
+- **Danger banner (under the top bar):** see [Loss warnings](#loss-warnings).
 - **Milestones / Research (left):** the milestone checklist, then the active research with progress, sols remaining and the queue.
 - **Build tray (bottom):** one card per unlocked structure with its current cost and count built. Unaffordable cards are dimmed. New unlocks get a "NEW" tag.
 - **Info panel (bottom left, while placing):** site rule, radius, link range, what the structure draws, base yield, every adjacency rule, and cost.
@@ -84,7 +94,7 @@ All HUD numbers are a projection of the next sol, so you see the effect of a pla
 
 ## Core loop and turn structure
 
-The game is turn-based, but each sol is on the clock (see [Compute](#compute-the-turn-timer)).
+The game is turn-based. Nothing happens over time except animation.
 
 1. **Build.** Spend alloy, crystal and components to place structures inside the dashed build zone. You can place as many as you can afford.
 2. **End the sol.** The simulation resolves in this order:
@@ -92,7 +102,7 @@ The game is turn-based, but each sol is on the clock (see [Compute](#compute-the
    2. Drills add ore. Smelters convert ore to alloy 1:1, up to total smelting capacity. The lander (+1) and Skyports add alloy directly.
    3. Assemblers turn 1 alloy + 1 crystal into 1 component, up to assembly capacity and free component storage.
    4. Sail Launchers spend 1 component per sail launched.
-   5. Ore is capped at storage. Rations get production minus consumption, capped at storage and never below 0.
+   5. Ore is capped at storage. Food gets production minus consumption, capped at storage and never below 0.
    6. Battery charge updates: shortfalls drain it, surplus power refills it.
    7. Terraformers add Heat, Pressure and Biomass to Ti.
    8. Data flows into research.
@@ -102,29 +112,6 @@ The game is turn-based, but each sol is on the clock (see [Compute](#compute-the
    12. Terraforming stages are checked. Several can be gained at once.
    13. Loss conditions are checked.
 3. **Repeat** until the planet reaches Living World or the colony fails.
-
-### Compute: the turn timer
-
-*Added on the `compute-timer` branch, mostly as a joke.* Compute is a resource that is simply the time you have to plan the current sol. It shows first in the meter row as seconds left out of the sol's budget, with the next sol's budget underneath.
-
-| | |
-|---|---|
-| Budget | `10 + 110 × 0.95^(structures − 1)` seconds, rounded. The lander counts as 1. |
-| Examples | 1 structure: 120 s · 10: 79 s · 20: 52 s · 40: 25 s · 60: 15 s · floor 10 s |
-| Refill | Full budget at the start of every sol, recalculated from your structure count then. Building during a sol does not cut the current clock, only the next one. |
-| Paused | The menu, the start screen and the victory screen stop the clock. Research and field notes do not. |
-| Running out | The sol ends on its own and morale drops 5. |
-| Last 10 s | The meter turns amber and ticks each second; the last 5 s blink red and tick higher. |
-
-### Doom warnings
-
-Warnings escalate in three levels, and each is louder than the last.
-
-| Level | Trigger | What happens |
-|---|---|---|
-| 1 · Warning | Morale below 25, rations running out, oxygen short, or 10 s of compute left | Red alert chips shake and flash, the screen edges pulse red, an alarm every 6 s |
-| 2 · Almost dead | Morale at 0, morale hitting 0 next sol, or under 10 sols to the charter review | A flashing **YOU ARE ALMOST DEAD** box roams the screen and drifts toward your cursor, blocking clicks. Clicking it makes it dodge somewhere else. The HUD shakes and a klaxon sounds every 2.4 s |
-| 3 · Dead | Collapse or charter loss | The same box reads **YOU ARE DEAD** and wanders over the game-over screen, klaxon every 3.5 s |
 
 ## Scoring and end conditions
 
@@ -141,6 +128,18 @@ The colony report shows final Ti, stage, sol and best sols. **View colony** clos
 
 After a win, the charter deadline no longer applies. The morale collapse check still does.
 
+### Loss warnings
+
+A banner under the top bar shows the most serious threat. It gets louder in three levels. The banner always says what is wrong and why, and offers a button for the building that fixes it.
+
+| Level | Look | Shown when |
+|---|---|---|
+| **1 · Watch** | Amber banner | Morale is under 40 and falling; food runs out within 3 sols; or, from the halfway point of the charter, Living World is behind pace. |
+| **2 · Danger** | Red pulsing banner, alarm tone after each sol | Morale will be 0 after this sol (with a pip countdown to evacuation and the morale breakdown); food has run out; or the charter review is 10 sols away or less and still out of reach. |
+| **3 · Final sol** | Red screen edges, red **End sol** button | The next End Sol loses the game, by evacuation or by the charter review. Ending the sol asks for confirmation first. |
+
+On Relaxed there is no evacuation or charter, so only the morale and food warnings appear.
+
 ## Difficulty
 
 Every difficulty setting lives in one `DIFFS` table.
@@ -149,8 +148,8 @@ Every difficulty setting lives in one `DIFFS` table.
 |---|---|---|---|
 | Construction cost multiplier | x0.85 | x1.0 | x1.2 |
 | Starting alloy | 46 | 40 | 34 |
-| Starting rations | 20 | 16 | 14 |
-| Rations eaten per crew per sol | 0.35 | 0.5 | 0.6 |
+| Starting food | 20 | 16 | 14 |
+| Food eaten per crew per sol | 0.35 | 0.5 | 0.6 |
 | Morale recovery per fed sol | +7 | +5 | +4 |
 | Morale loss multiplier | x0.6 | x1.0 | x1.35 |
 | Morale efficiency floor (code value) | 0.60 | 0.35 | 0.25 |
@@ -170,7 +169,7 @@ Ti (terraformation index) is the sum of three components: **Heat**, **Pressure**
 | 0 | Barren Rock | 0 | - | - |
 | 1 | Thin Haze | 60 | - | Milestone: unlocks Vapor Drill and Tidal Turbine |
 | 2 | Blue Sky | 260 | Pressure 60 | Opens research tier 2 |
-| 3 | Lichen Bloom | 800 | Biomass 100 | Hydro Farms +1 rations (built ones included) |
+| 3 | Lichen Bloom | 800 | Biomass 100 | Hydro Farms +1 food (built ones included) |
 | 4 | Liquid Seas | 2,000 | Heat 800 | Opens research tier 3 |
 | 5 | Moss Carpet | 4,200 | Biomass 900 | Morale recovers twice as fast |
 | 6 | Breathable Air | 8,000 | Pressure 2,500 | Opens research tier 4. Nothing needs O2 any more. |
@@ -197,13 +196,13 @@ Building output is scaled by efficiency. Sails, mirrors and monoliths are not.
 | **Ti** (Heat / Pressure / Biomass) | Score track | Cumulative. Never spent. |
 | **Power** | Per-sol budget | Supply vs demand. Not stored, except in Battery Banks. |
 | **Oxygen (O2)** | Per-sol budget | Supply vs demand. Free from stage 6. |
-| **Crew** | Per-sol budget | Housing vs jobs. Every housed crew member eats rations. |
+| **Crew** | Per-sol budget | Housing vs jobs. Every housed crew member eats food. |
 | **Morale** | 0-100 | Starts at 75. |
 | **Ore** | Stockpile | Cap 40 + 20 per Ferrite Drill. Excess is lost. |
 | **Alloy** | Stockpile | No cap. The main building currency. |
 | **Crystal** | Stockpile | No cap. |
 | **Components** | Stockpile | Cap 20 + 15 per Assembler. Assemblers pause when it is full. |
-| **Rations** | Stockpile | Cap 50 + 25 per Hydro Farm. Excess is lost. |
+| **Food** (code key `rations`) | Stockpile | Cap 50 + 25 per Hydro Farm. Excess is lost. |
 | **Data** | Flow | Goes to the active research. When nothing is queued, up to 20 is banked. |
 | **Solar sails** | Count | Each sail in orbit gives +0.5 power and +0.25 Heat per sol, permanently. |
 
@@ -227,8 +226,8 @@ Housing from Hab Pods, Commons and Arcologies is not scaled by efficiency. Their
 
 | Condition | Change |
 |---|---|
-| Rations covered consumption | +recover (+7 / +5 / +4), doubled from stage 5 |
-| Rations ran out | -16 x loss multiplier (instead of recovery) |
+| Food covered consumption | +recover (+7 / +5 / +4), doubled from stage 5 |
+| Food ran out | -16 x loss multiplier (instead of recovery) |
 | O2 short | -20 x (1 - O2 efficiency) x loss multiplier |
 | Power efficiency below 70% | -3 x loss multiplier |
 | Commons Plazas | +2 each, +8 maximum total |
@@ -244,7 +243,7 @@ Costs are first-copy prices on Standard. See [cost scaling](#cost-scaling) for l
 | Colony Lander | Starting | - | Fixed | - | 8 power, 6 O2, 4 housing, +1 alloy/sol | - |
 | Hab Pod | Start | 5 alloy | Open land | 1 power, 2 O2 | 2 housing | 2 |
 | Solar Array | Start | 4 alloy | Open land | - | 4 power | 1 |
-| Hydro Farm | Start | 5 alloy | Open land | 1 power, 1 crew | 2 rations/sol | 2 |
+| Hydro Farm | Start | 5 alloy | Open land | 1 power, 1 crew | 2 food/sol | 2 |
 | Heater | Start | 5 alloy | Open land | 2 power | 2 Ti/sol (Heat) | 2 |
 | Ferrite Drill | Start | 6 alloy | Ferrite node | 2 power, 1 crew | 0 + purity (2/3/5) ore/sol | 1 |
 | Smelter | Start | 8 alloy | Open land | 2 power, 2 crew, 1 O2 | 2 smelting/sol | 2 |
@@ -373,7 +372,7 @@ Deposits block ordinary construction. Most of them give adjacency bonuses to nea
 
 | Find | Reward |
 |---|---|
-| Ark debris | One of: +12-20 alloy (40%), +6-10 crystal (30%), +3-5 components (20%), +20 rations (10%) |
+| Ark debris | One of: +12-20 alloy (40%), +6-10 crystal (30%), +3-5 components (20%), +20 food (10%) |
 | Precursor relic | +15 data, banked for research |
 | Precursor Monolith | Instantly completes the active research, or banks +60 data if none is active. Also gives +3 Heat Ti every sol, permanently. |
 
@@ -418,7 +417,7 @@ These are shown as a checklist until all five are done.
 | 2 | Induction Smelting | 60 | - | Smelters +1 capacity (built ones included) |
 | 2 | Greenhouse Gases | 70 | - | Heaters +2 Ti/sol (built ones included) |
 | 2 | Orbital Scan | 50 | - | Reveals every deposit on the planet |
-| 2 | Hydroponics | 55 | - | Hydro Farms +1 rations (built ones included) |
+| 2 | Hydroponics | 55 | - | Hydro Farms +1 food (built ones included) |
 | 3 | Fusion Power | 110 | 6 | Unlocks Fusion Reactor |
 | 3 | Arcologies | 110 | 4 | Unlocks Arcology |
 | 3 | Precursor Linguistics | 100 | 4 | Unlocks Signal Spire |
@@ -473,7 +472,7 @@ All sound is generated live with the Web Audio API. There are no audio files.
 - **Variety over spam.** Terraformer costs compound (x1.12 per copy) and most structures penalise copies of themselves nearby. Infrastructure costs rise only 10% per copy.
 - **Placement is the puzzle.** Values are fixed where you place them, as in Islanders, so build order matters. Put the neighbours down first, then the structure that benefits from them.
 - **Turn-based race.** There is no real-time pressure. The challenge is reaching Living World in as few sols as possible, and the HUD always shows the next sol's projection.
-- **Upkeep is a real threat.** Rations, brownouts, thin air and morale can spiral, and hazards punish thin margins. According to the design notes, balance was tuned with scripted bots so that random play does not win.
+- **Upkeep is a real threat.** Food, brownouts, thin air and morale can spiral, and hazards punish thin margins. According to the design notes, balance was tuned with scripted bots so that random play does not win.
 - **Gated progression.** Milestones teach the production chain one link at a time. After that, research takes over, and its tiers are tied to terraforming stages so the economy and the planet advance together.
 - **Three Ti components.** Stage floors on Heat, Pressure and Biomass mean you cannot win by building one kind of terraformer.
 - **One difficulty table.** Every difficulty number lives in `DIFFS`, so it is easy to tune.
