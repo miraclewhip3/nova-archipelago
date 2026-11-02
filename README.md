@@ -465,6 +465,7 @@ All sound is generated live with the Web Audio API. There are no audio files.
 - Every structure and deposit has its own procedural art. At low zoom they become coloured dots, and hex grid lines appear when zoomed in.
 - **Animations:** a pulsing dashed build-zone border, sonar rings on the lander and relays, drones flying between a Drone Hub and industry within 3 hexes, sail launch trails, meteor streaks and impacts, smoke and sparks on damaged structures, and floating yield popups.
 - The UI is a sci-fi HUD using the Oxanium, Chakra Petch and IBM Plex Mono fonts on a dark teal and amber palette.
+- The favicon is an amber island inside a cyan hex, drawn as an inline SVG in the `<head>` of each page.
 - The layout adapts for screens 760 px wide or less, and transitions are turned off when the system asks for reduced motion.
 
 ## Design choices
